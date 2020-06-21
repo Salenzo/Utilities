@@ -167,7 +167,12 @@ int main(int count, char** filenames) {
 		printf("[%d] %s\n", i, filenames[i]);
 		int width, height;
 		int box_x, box_y, box_width, box_height;
-		const char* ext = strrchr(filenames[i], '.') + 1;
+		const char* ext = strrchr(filenames[i], '.');
+		if (ext) {
+			ext++;
+		} else {
+			ext = "";
+		}
 		if (strcmp(ext, "jpg") == 0 || strcmp(ext, "jpeg") == 0) {
 			FILE* fj = fopen(filenames[i], "rb");
 			get_jpeg_size(fj, &width, &height);
