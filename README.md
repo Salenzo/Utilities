@@ -1,5 +1,5 @@
 Sketch library
-==========
+==============
 
 单源文件的短小C程序。大多数按照初学C语言时的编译方法就能编译。
 
@@ -13,3 +13,5 @@ Sketch library
 	<dt>bat</dt>
 	<dd>（仅限Windows。）执行一句批处理命令。很奇怪，但有时候用cmd.exe就是搞不定。</dd>
 </dl>
+
+库的名字“Sketch library”是用谷歌翻译机翻译自“小品程序库”的结果。
