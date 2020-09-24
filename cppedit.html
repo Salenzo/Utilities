@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<style>
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	color: var(--base00);
+	font-size: 12px;
+	overflow: hidden;
+
+	/* https://ethanschoonover.com/solarized/ */
+	--yellow:    #b58900;
+	--orange:    #cb4b16;
+	--red:       #dc322f;
+	--magenta:   #d33682;
+	--violet:    #6c71c4;
+	--blue:      #268bd2;
+	--cyan:      #2aa198;
+	--green:     #859900;
+	--base03:    silver;
+	--base02:    silver;
+	--base01:    silver;
+	--base00:    silver;
+	--base0:     silver;
+	--base1:     silver;
+	--base2:     silver;
+	--base3:     silver;
+}
+
+body.light {
+	--base03:    #002b36;
+	--base02:    #073642;
+	--base01:    #586e75;
+	--base00:    #657b83;
+	--base0:     #839496;
+	--base1:     #93a1a1;
+	--base2:     #eee8d5;
+	--base3:     #fdf6e3;
+}
+
+body.dark {
+	--base03:    #fdf6e3;
+	--base02:    #eee8d5;
+	--base01:    #93a1a1;
+	--base00:    #839496;
+	--base0:     #657b83;
+	--base1:     #586e75;
+	--base2:     #073642;
+	--base3:     #002b36;
+}
+
+#cpp {
+	border-style: none;
+	resize: none;
+	flex: 1;
+	font-family: monospace;
+	font-size: 1.2rem;
+	background-color: var(--base3);
+	color: var(--base00);
+}
+
+button {
+	border-style: none;
+	flex: 1;
+	font-size: 1rem;
+	background-color: var(--base2);
+	color: var(--base00);
+	height: 2.5rem;
+}
+
+button:active {
+	background-color: var(--base00);
+	color: var(--base2);
+	font-weight: bold;
+}
+
+#tools {
+	flex: 0 8rem;
+	display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+}
+</style>
+<textarea id="cpp"></textarea>
+<div id="tools">
+	<button onclick="cpp.select();document.execCommand('copy');">复制</button>
+	<button onclick="prev();">上一占位符</button>
+	<button onclick="next();">下一占位符</button>
+	<button onclick="ins(';');"><code>;</code></button>
+	<button onclick="ins('(□)');"><code>( )</code></button>
+	<button onclick="ins('[□]');"><code>[ ]</code></button>
+	<button onclick="ins('{□}');"><code>{ }</code></button>
+	<button onclick="insline('#include <iostream>\n#include <iomanip>\n\nint main(int argc, char *argv[]) {\n□\nreturn 0;\n}');">主程序</button>
+	<button onclick="insline('#include <□>');">包含头</button>
+	<fieldset style="grid-column: 1 / -1;">
+		<legend>循环变量</legend>
+		<label><input type="radio" name="loopvar" value="i" checked><var>i</var></label>
+		<label><input type="radio" name="loopvar" value="j"><var>j</var></label>
+		<label><input type="radio" name="loopvar" value="k"><var>k</var></label>
+		<label><input type="radio" name="loopvar" value="a"><var>a</var></label>
+		<label><input type="radio" name="loopvar" value="b"><var>b</var></label>
+		<label><input type="radio" name="loopvar" value="c"><var>c</var></label>
+		<label><input type="radio" name="loopvar" value="d"><var>d</var></label>
+		<label><input type="radio" name="loopvar" value="m"><var>m</var></label>
+		<label><input type="radio" name="loopvar" value="n"><var>n</var></label>
+		<label><input type="radio" name="loopvar" value="x"><var>x</var></label>
+		<label><input type="radio" name="loopvar" value="y"><var>y</var></label>
+	</fieldset>
+	<button onclick="insline('for (int ★ = 0; ★ < □; ++★) {\n□\n}');">计次循环</button>
+	<button onclick="insline('struct □ {\n□\n};');">结构体</button>
+	<button onclick="togglelightdark();">
+		<span style="display: inline-block; vertical-align: middle; width: 0.5em; height: 1em; border-radius: 0.5em 0 0 0.5em; background-color: currentcolor;"></span><span style="display: inline-block; vertical-align: middle; width: 0.5em; height: 1em; border-radius: 0 0.5em 0.5em 0; border: 0.05em solid currentcolor; border-left-style: none;"></span>
+		主题
+	</button>
+</div>
+<script>
+if (window.location.hash == "#light") {
+	document.body.classList.add("light");
+} else if (window.location.hash == "#dark") {
+	document.body.classList.add("dark");
+} else {
+	if (window.matchMedia("prefers-color-scheme: light").matches) {
+		window.location.hash = "#light";
+		document.body.classList.add("light");
+	} else {
+		window.location.hash = "#dark";
+		document.body.classList.add("dark");
+	}
+}
+
+function togglelightdark() {
+	if (document.body.classList.contains("dark")) {
+		document.body.classList.remove("dark");
+		document.body.classList.add("light");
+		window.location.hash = "#light";
+	} else {
+		document.body.classList.remove("light");
+		document.body.classList.add("dark");
+		window.location.hash = "#dark";
+	}
+}
+
+window.onbeforeunload = function(e) {
+	if (cpp.value.trim().length) {
+		e.preventDefault();
+		e.returnValue = "";
+	} else {
+  	delete e["returnValue"];
+	}
+};
+
+function ins(text) {
+	cpp.focus();
+	document.execCommand("insertText", false, text);
+	if (text.indexOf("□") >= 0) {
+		let index = cpp.value.lastIndexOf("□", cpp.selectionStart);
+		cpp.setSelectionRange(index, index + 1, "forward");
+	}
+}
+
+function insline(text) {
+	let str = "\n" + cpp.value + "\n";
+	let str_before = str.slice(0, str.lastIndexOf("\n", cpp.selectionStart + 1) + 1).trimStart();
+	let str_after = str.slice(str.lastIndexOf("\n", cpp.selectionEnd + 1)).trimEnd();
+	str = "\n" + str_before + text + str_after + "\n";
+	cpp.value = str;
+	if (text.indexOf("□") >= 0) {
+		let index = 1 + str_before.length + text.indexOf("□");
+		cpp.setSelectionRange(index, index + 1, "forward");
+		cpp.focus();
+	}
+}
+
+function prev() {
+	let index = cpp.value.lastIndexOf("□", cpp.selectionStart - 1);
+	if (index < 0) {
+		index = cpp.value.indexOf("□");
+		if (index < 0) {
+			return;
+		}
+	}
+	cpp.setSelectionRange(index, index + 1, "forward");
+	cpp.focus();
+}
+
+function next() {
+	let index = cpp.value.indexOf("□", cpp.selectionStart + 1);
+	if (index < 0) {
+		index = cpp.value.indexOf("□");
+		if (index < 0) {
+			return;
+		}
+	}
+	cpp.setSelectionRange(index, index + 1, "forward");
+	cpp.focus();
+}
+</script>
