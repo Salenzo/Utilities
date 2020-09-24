@@ -14,4 +14,11 @@ Sketch library
 	<dd>（仅限Windows。）执行一句批处理命令。很奇怪，但有时候用cmd.exe就是搞不定。</dd>
 </dl>
 
+还有一些单文件网页。
+
+<dl>
+	<dt>cppedit</dt>
+	<dd>非常简陋的C++程序输入法，主要用于在手机上写数据结构课的作业。</dd>
+</dl>
+
 库的名字“Sketch library”是用谷歌翻译机翻译自“小品程序库”的结果。

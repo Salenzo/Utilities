@@ -17,7 +17,6 @@ body {
 	font-size: 12px;
 	overflow: hidden;
 
-	/* https://ethanschoonover.com/solarized/ */
 	--yellow:    #b58900;
 	--orange:    #cb4b16;
 	--red:       #dc322f;
@@ -87,6 +86,34 @@ button:active {
 	flex: 0 8rem;
 	display: grid;
   grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+	background-color: var(--base2);
+}
+
+.icon-adjust {
+	display: inline-block;
+	vertical-align: middle;
+	width: 1em;
+	height: 1em;
+}
+
+.icon-adjust::before {
+	content: "";
+	display: inline-block;
+	width: 0.5em;
+	height: 1em;
+	border-radius: 0.5em 0 0 0.5em;
+	background-color: currentcolor;
+}
+
+.icon-adjust::after {
+	content: "";
+	display: inline-block;
+	box-sizing: border-box;
+	width: 0.5em;
+	height: 1em;
+	border-radius: 0 0.5em 0.5em 0;
+	border: 0.05em solid currentcolor;
+	border-left-style: none;
 }
 </style>
 <textarea id="cpp"></textarea>
@@ -98,28 +125,37 @@ button:active {
 	<button onclick="ins('(□)');"><code>( )</code></button>
 	<button onclick="ins('[□]');"><code>[ ]</code></button>
 	<button onclick="ins('{□}');"><code>{ }</code></button>
-	<button onclick="insline('#include <iostream>\n#include <iomanip>\n\nint main(int argc, char *argv[]) {\n□\nreturn 0;\n}');">主程序</button>
-	<button onclick="insline('#include <□>');">包含头</button>
+	<button onclick="ins('&lt;');"><code>&lt;</code></button>
+	<button onclick="ins('&gt;');"><code>&gt;</code></button>
+	<button onclick="ins('&amp;&amp;');"><code>&amp;&amp;</code></button>
+	<button onclick="ins('||');"><code>||</code></button>
 	<fieldset style="grid-column: 1 / -1;">
 		<legend>循环变量</legend>
-		<label><input type="radio" name="loopvar" value="i" checked><var>i</var></label>
-		<label><input type="radio" name="loopvar" value="j"><var>j</var></label>
-		<label><input type="radio" name="loopvar" value="k"><var>k</var></label>
-		<label><input type="radio" name="loopvar" value="a"><var>a</var></label>
-		<label><input type="radio" name="loopvar" value="b"><var>b</var></label>
-		<label><input type="radio" name="loopvar" value="c"><var>c</var></label>
-		<label><input type="radio" name="loopvar" value="d"><var>d</var></label>
-		<label><input type="radio" name="loopvar" value="m"><var>m</var></label>
-		<label><input type="radio" name="loopvar" value="n"><var>n</var></label>
-		<label><input type="radio" name="loopvar" value="x"><var>x</var></label>
-		<label><input type="radio" name="loopvar" value="y"><var>y</var></label>
+		<label><input type="radio" name="loopvar" checked><var>i</var></label>
+		<label><input type="radio" name="loopvar"><var>j</var></label>
+		<label><input type="radio" name="loopvar"><var>k</var></label>
+		<label><input type="radio" name="loopvar"><var>a</var></label>
+		<label><input type="radio" name="loopvar"><var>b</var></label>
+		<label><input type="radio" name="loopvar"><var>c</var></label>
+		<label><input type="radio" name="loopvar"><var>d</var></label>
+		<label><input type="radio" name="loopvar"><var>m</var></label>
+		<label><input type="radio" name="loopvar"><var>n</var></label>
+		<label><input type="radio" name="loopvar"><var>x</var></label>
+		<label><input type="radio" name="loopvar"><var>y</var></label>
 	</fieldset>
-	<button onclick="insline('for (int ★ = 0; ★ < □; ++★) {\n□\n}');">计次循环</button>
-	<button onclick="insline('struct □ {\n□\n};');">结构体</button>
-	<button onclick="togglelightdark();">
-		<span style="display: inline-block; vertical-align: middle; width: 0.5em; height: 1em; border-radius: 0.5em 0 0 0.5em; background-color: currentcolor;"></span><span style="display: inline-block; vertical-align: middle; width: 0.5em; height: 1em; border-radius: 0 0.5em 0.5em 0; border: 0.05em solid currentcolor; border-left-style: none;"></span>
-		主题
-	</button>
+	<button onclick="insline('#include <iostream>\n#include <iomanip>\nusing namespace std;\n\nint main(int argc, char *argv[]) {\n□\nreturn 0;\n}');">主程序</button>
+	<button onclick="insline('#include <□>');">包含头</button>
+	<button onclick="insline('cin >> □;');">输入</button>
+	<button onclick="insline('cout << □ << endl;');">输出</button>
+	<button onclick="insline('if (□) {\n□;\n} else {\n}');">判断</button>
+	<button onclick="insline('for (;;) {\n□;\n}');">循环</button>
+	<button onclick="insline('for (int ★ = 0; ★ < □; ++★) {\n□;\n}');">计次循环</button>
+	<button onclick="insline('while (□) {\n□;\n}');">判断循环</button>
+	<button onclick="insline('struct □ {\n□;\n};');">结构体</button>
+	<button onclick="insline('class □ {\nprivate:\n□;\npublic:\n□;\n};');">类</button>
+	<button onclick="autoindent();">自动缩进</button>
+	<button onclick="togglelightdark();"><span class="icon-adjust"></span> 主题</button>
+	<button onclick="alert('【cppedit】\nFrog Chen制作的非常简陋的C++程序输入法，主要用于在手机上写数据结构课的作业。\n作者是个连关于框都懒得仔细做的屑。\n原始发布地址：https://salenzo.github.io/Utilities/cppedit.html\n使用了Solarized色彩方案，地址：https://ethanschoonover.com/solarized/');">关于</button>
 </div>
 <script>
 if (window.location.hash == "#light") {
@@ -157,7 +193,13 @@ window.onbeforeunload = function(e) {
 	}
 };
 
+function preprocess(text) {
+	text = text.replaceAll("★", document.querySelector('input[name="loopvar"]:checked').parentNode.innerText);
+	return text;
+}
+
 function ins(text) {
+	text = preprocess(text);
 	cpp.focus();
 	document.execCommand("insertText", false, text);
 	if (text.indexOf("□") >= 0) {
@@ -167,6 +209,7 @@ function ins(text) {
 }
 
 function insline(text) {
+	text = preprocess(text);
 	let str = "\n" + cpp.value + "\n";
 	let str_before = str.slice(0, str.lastIndexOf("\n", cpp.selectionStart + 1) + 1).trimStart();
 	let str_after = str.slice(str.lastIndexOf("\n", cpp.selectionEnd + 1)).trimEnd();
@@ -182,7 +225,7 @@ function insline(text) {
 function prev() {
 	let index = cpp.value.lastIndexOf("□", cpp.selectionStart - 1);
 	if (index < 0) {
-		index = cpp.value.indexOf("□");
+		index = cpp.value.lastIndexOf("□");
 		if (index < 0) {
 			return;
 		}
@@ -201,5 +244,20 @@ function next() {
 	}
 	cpp.setSelectionRange(index, index + 1, "forward");
 	cpp.focus();
+}
+
+function autoindent() {
+	let indent = 0;
+	cpp.value = cpp.value.split("\n").map(line => {
+		line = line.trim();
+		if (line[0] == "}") {
+			indent--;
+		}
+		line = "\t".repeat(line[line.length - 1] == ":" ? indent - 1 : indent) + line;
+		if (line[line.length - 1] == "{") {
+			indent++;
+		}
+		return line;
+	}).join("\n");
 }
 </script>
