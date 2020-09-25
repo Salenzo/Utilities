@@ -65,6 +65,7 @@ body.dark {
 	font-size: 1.2rem;
 	background-color: var(--base3);
 	color: var(--base00);
+	border-style: none;
 }
 
 button {
@@ -83,7 +84,8 @@ button:active {
 }
 
 #tools {
-	flex: 0 8rem;
+	flex: 0 11rem;
+	overflow-y: auto;
 	display: grid;
   grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
 	background-color: var(--base2);
@@ -194,14 +196,14 @@ window.onbeforeunload = function(e) {
 };
 
 function preprocess(text) {
-	text = text.replaceAll("★", document.querySelector('input[name="loopvar"]:checked').parentNode.innerText);
+	text = text.replace(/★/g, document.querySelector('input[name="loopvar"]:checked').parentNode.innerText);
 	return text;
 }
 
 function ins(text) {
 	text = preprocess(text);
 	cpp.focus();
-	document.execCommand("insertText", false, text);
+	cpp.setRangeText(text, cpp.selectionStart, cpp.selectionEnd, "end");
 	if (text.indexOf("□") >= 0) {
 		let index = cpp.value.lastIndexOf("□", cpp.selectionStart);
 		cpp.setSelectionRange(index, index + 1, "forward");
