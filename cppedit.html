@@ -181,13 +181,13 @@ legend {
 	<button onclick="next();">下一占位符</button>
 	<button onclick="ins('\t');">制表符</button>
 	<button onclick="ins(';');"><code>;</code></button>
-	<button onclick="ins('(□)');"><code>( )</code></button>
 	<button onclick="ins('[□]');"><code>[ ]</code></button>
 	<button onclick="ins('{□}');"><code>{ }</code></button>
 	<button onclick="ins('&lt;');"><code>&lt;</code></button>
 	<button onclick="ins('&gt;');"><code>&gt;</code></button>
 	<button onclick="ins('&amp;&amp;');"><code>&amp;&amp;</code></button>
 	<button onclick="ins('||');"><code>||</code></button>
+	<button onclick="ins('\\n');"><code>\n</code></button>
 	<fieldset>
 		<legend>循环变量</legend>
 		<div class="radio-group">
@@ -204,17 +204,19 @@ legend {
 			<label><input type="radio" name="loopvar"><var>y</var></label>
 		</div>
 	</fieldset>
-	<button onclick="insline('#include <iostream>\n#include <iomanip>\nusing namespace std;\n\nint main(int argc, char *argv[]) {\n□\nreturn 0;\n}');">主程序</button>
+	<button onclick="insline('#include <cstdio>\n#include <iostream>\n#include <iomanip>\nusing namespace std;\n\nint main(int argc, char *argv[]) {\n□\nreturn 0;\n}');">主程序</button>
 	<button onclick="insline('#include <□>');">包含头</button>
-	<button onclick="insline('cin >> □;');">输入</button>
-	<button onclick="insline('cout << □ << endl;');">输出</button>
+	<button onclick="insline('cin >> □;');">C++风格输入</button>
+	<button onclick="insline('scanf(&quot;%d&quot;, &□);');">C风格输入</button>
+	<button onclick="insline('cout << □ << endl;');">C++风格输出</button>
+	<button onclick="insline('printf(&quot;%d&quot;, □);');">C风格输出</button>
 	<button onclick="insline('if (□) {\n□;\n} else {\n}');">判断</button>
 	<button onclick="insline('for (;;) {\n□;\n}');">循环</button>
 	<button onclick="insline('for (int ★ = 0; ★ < □; ++★) {\n□;\n}');">计次循环</button>
 	<button onclick="insline('while (□) {\n□;\n}');">判断循环</button>
 	<button onclick="insline('struct □ {\n□;\n};');">结构体</button>
 	<button onclick="insline('class □ {\nprivate:\n□;\npublic:\n□;\n};');">类</button>
-	<button onclick="alert('运行个鬼');"><span class="icon-play"></span> 运行</button>
+	<button onclick="alert('运行个鬼');"><span class="icon-play"></span> 没法运行</button>
 	<button onclick="autoindent();">重算缩进</button>
 	<fieldset>
 		<legend>制表位大小</legend>
