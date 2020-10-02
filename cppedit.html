@@ -176,9 +176,12 @@ legend {
 </style>
 <textarea id="cpp"></textarea>
 <div id="tools">
-	<button onclick="cpp.select();document.execCommand('copy');">复制</button>
+	<button onclick="cpp.select();document.execCommand('copy');">全部复制</button>
 	<button onclick="prev();">上一占位符</button>
 	<button onclick="next();">下一占位符</button>
+	<button onclick="cpp.focus();document.execCommand('cut');">随缘剪切</button>
+	<button onclick="cpp.focus();document.execCommand('copy');">随缘复制</button>
+	<button onclick="cpp.focus();document.execCommand('paste');">随缘粘贴</button>
 	<button onclick="ins('\t');">制表符</button>
 	<button onclick="ins(';');"><code>;</code></button>
 	<button onclick="ins('[□]');"><code>[ ]</code></button>
@@ -206,9 +209,10 @@ legend {
 	</fieldset>
 	<button onclick="insline('#include <cstdio>\n#include <iostream>\n#include <iomanip>\nusing namespace std;\n\nint main(int argc, char *argv[]) {\n□\nreturn 0;\n}');">主程序</button>
 	<button onclick="insline('#include <□>');">包含头</button>
-	<button onclick="insline('cin >> □;');">C++风格输入</button>
+	<button onclick="insline('cin >> □;');">流输入</button>
 	<button onclick="insline('scanf(&quot;%d&quot;, &□);');">C风格输入</button>
-	<button onclick="insline('cout << □ << endl;');">C++风格输出</button>
+	<button onclick="insline('cout << □ << endl;');">流输出</button>
+	<button onclick="insline('ios::sync_with_stdio(false);');">禁用流同步</button>
 	<button onclick="insline('printf(&quot;%d&quot;, □);');">C风格输出</button>
 	<button onclick="insline('if (□) {\n□;\n} else {\n}');">判断</button>
 	<button onclick="insline('for (;;) {\n□;\n}');">循环</button>
@@ -330,6 +334,7 @@ function autoindent() {
 	let indent = 0;
 	cpp.value = cpp.value.split("\n").map(line => {
 		line = line.trim();
+		if (!line.length) return line;
 		if (line[0] == "}") {
 			indent--;
 		}
