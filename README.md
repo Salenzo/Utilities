@@ -5,7 +5,7 @@ Sketch library
 
 <dl>
 	<dt>echop</dt>
-	<dd>具有和<code>echo</code>类似的作用。主要是为了方便在Windows上检视程序接收到的ARGV。（Windows上的<code>echo</code>作为命令提示符的内置功能，语法和调用外部命令不一致。）</dd>
+	<dd>具有和<code>echo</code>类似的作用。主要是为了方便检视程序接收到的ARGV。Windows上的<code>echo</code>作为命令提示符的内置功能，语法和调用外部命令不一致；*nix上则可以避免参数意外匹配<code>-n</code>和<code>-e</code>选项。区区一个回显命令，怎么到处都有怪问题？批处理与外壳编程就是这么变态。</dd>
 	<dt>slzpdf</dt>
 	<dd>以仅次于复制文件的速度对命令行参数中指定的所有JPEG图像文件作为每一页合并生成一个PDF文件。页面大小为A4，无边距，图像保持比例最大化居中。此外，还支持将文本文件导出为PDF，不过这并不是主要功能。</dd>
 	<dt>columnar</dt>
