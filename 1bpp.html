@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<title>二进制二值图像查看器</title>
+<input type="file" id="image_converter_input">
+÷<input type="number" value="256" min="1" id="columns">
++<input type="number" value="0" id="byte_offset"><span id="byte_offset_output"></span>
+<br>位：
+<label><input type="radio" name="image_converter_endian" value="0" checked>小端序</label>
+<label><input type="radio" name="image_converter_endian" value="7">大端序</label>
+<br>字：
+<label><input type="radio" name="image_converter_word_size" value="0" checked>小端序</label>
+<label><input type="radio" name="image_converter_word_size" value="1">按16位大端序</label>
+<label><input type="radio" name="image_converter_word_size" value="3">按32位大端序</label>
+<label><input type="radio" name="image_converter_word_size" value="7">按64位大端序</label>
+<div><canvas width="1024" height="2048" id="image_converter_output"></canvas></div>
+<script>
+var ctx = image_converter_output.getContext("2d");
+var reader = new FileReader();
+var buffer;
+image_converter_input.onchange = function (event) {
+	if (event.target.files.length > 0) {
+		reader.readAsArrayBuffer(event.target.files[0]);
+	}
+};
+reader.onload = function () {
+	buffer = new Uint8Array(reader.result);
+	update();
+};
+function update() {
+	if (!buffer) return;
+	byte_offset_output.textContent = "0x" + parseInt(byte_offset.value).toString(16);
+	var b = buffer.subarray(parseInt(byte_offset.value));
+	var c = parseInt(columns.value);
+	var d = ctx.createImageData(c, Math.ceil(b.length * 8 / c));
+	var a = d.data;
+	var xor1 = parseInt(document.querySelector("input[name=image_converter_word_size]:checked").value);
+	var xor2 = parseInt(document.querySelector("input[name=image_converter_endian]:checked").value);
+	for (var i = 0; i < b.length * 8; i++) {
+		a[i * 4] = a[i * 4 + 1] = a[i * 4 + 2] = (~b[i >> 3 ^ xor1] >> ((i ^ xor2) & 7) & 1) * 255;
+		a[i * 4 + 3] = 255;
+	}
+	ctx.clearRect(0, 0, image_converter_output.width, image_converter_output.height);
+	for (var i = 0; i < Math.ceil(image_converter_output.width / c); i++) {
+		ctx.putImageData(d, c * i, -image_converter_output.height * i);
+	}
+}
+document.querySelectorAll("input[type=radio], input[type=number]").forEach(function (el) {
+	el.oninput = update;
+});
+</script>
