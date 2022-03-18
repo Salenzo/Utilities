@@ -2,275 +2,309 @@
 <meta charset="utf-8">
 <title>crontab</title>
 <style>
-*, *::before, *::after {
-  box-sizing: border-box;
+* {
+	box-sizing: border-box;
 }
+
 ::selection {
-  background-color: rgba(255, 255, 128, .2);
+	background-color: rgba(255, 255, 128, .2);
 }
+
 html {
-  color: #cccccc;
-  background-color: #1a1a1a;
-  text-align: center;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 1.3em;
+	color: #cccccc;
+	background-color: #1a1a1a;
+	text-align: center;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 1.3em;
 }
+
 body {
-  max-width: 900px;
-  margin: auto;
-  padding: 0 1em;
+	max-width: 900px;
+	margin: auto;
+	padding: 0 1em;
 }
-table {
-  margin-left: auto;
-  margin-right: auto;
-  border-collapse: collapse;
-  border-top: 1px solid #333333;
-  border-bottom: 1px solid #333333;
-  width: 100%;
-  max-width: 400px;
-}
-th, td {
-  border-top: 1px solid #333333;
-  border-bottom: 1px solid #333333;
-}
-th {
-  width: 13em;
-  text-align: right;
-  padding: .2em 1em .2em 0;
-}
-td {
-  text-align: left;
-  padding: .2em 0 .2em 1em;
-}
-#warningDiv {
-  color: saddlebrown;
-  font-size: 75%;
-}
-#input {
-  font-family: "Courier New", Courier, monospace;
-  text-align: center;
-  font-size: 250%;
-  width: 100%;
-  background-color: #333333;
-  border: 1px solid #cccccc;
-  border-radius: .6em;
-  color: #ffffff;
-  padding-top: .075rem;
-}
-#input.invalid {
-  border: 1px solid darkred;
-}
-#input.warning {
-  border: 1px solid saddlebrown;
-}
-#input:focus {
-  outline: none;
-}
-#input::selection {
-  color: #ffff80;
-  background-color: rgba(255, 255, 128, .2);
-}
+
 .clickable {
-  text-decoration: underline;
-  cursor: pointer;
-  user-select: none;
+	text-decoration: underline;
+	cursor: pointer;
+	user-select: none;
 }
-.part-explanation {
-  font-size: 75%;
-  color: #a8a8a8;
-  height: 24em;
+
+#hr {
+	font-family: Georgia, serif;
+	font-size: 200%;
+	font-style: italic;
+	margin-bottom: .2em;
+	margin-top: .9em;
 }
-.part-explanation div {
-  display: inline-block;
-  vertical-align: top;
+
+#hr > .active {
+	color: #ffff80;
 }
-.part-explanation .active {
-  color: #ffff80;
+
+#anotherDiv {
+	font-size: 75%;
 }
-.part-explanation .invalid {
-  background-color: darkred;
-}
-.part-explanation .warning {
-  background-color: saddlebrown;
-}
-.part-explanation .clickable {
-  border-radius: 1em;
-  padding: .1em .36em;
-}
-.human-readable {
-  font-size: 200%;
-  font-family: Georgia, serif;
-  min-height: 2.2em;
-  margin-bottom: .2em;
-  margin-top: .9em;
-}
-.human-readable .active {
-  color: #ffff80;
-}
-.next-date {
-  font-size: 75%;
-}
+
 .example {
-  font-size: 75%;
+	font-size: 75%;
+	float: right;
 }
+
+#input {
+	font-family: inherit;
+	text-align: center;
+	font-size: 250%;
+	width: 100%;
+	background-color: #333333;
+	border: 1px solid #cccccc;
+	border-radius: 1em;
+	color: #ffffff;
+	margin-top: 7px;
+}
+
+#input.invalid {
+	border-color: darkred;
+}
+
+#input.warning {
+	border-color: saddlebrown;
+}
+
+#input:focus {
+	outline: none;
+}
+
+#input::selection {
+	color: #ffff80;
+	background-color: rgba(255, 255, 128, .2);
+}
+
+#warningDiv {
+	color: saddlebrown;
+	font-size: 75%;
+	height: 0;
+}
+
+#partExplanationDiv {
+	font-size: 75%;
+	color: #a8a8a8;
+	height: 24em;
+}
+
+.cron-parts > * {
+	display: inline-block;
+	vertical-align: top;
+	border-radius: 1em;
+	margin: 1.1em .36em;
+}
+
+.cron-parts > .active {
+	color: #ffff80;
+}
+
+.cron-parts > .invalid {
+	background-color: darkred;
+}
+
+.cron-parts > .warning {
+	background-color: saddlebrown;
+}
+
+table {
+	margin-left: auto;
+	margin-right: auto;
+	border-collapse: collapse;
+	max-width: 400px;
+}
+
+th,
+td {
+	border-top: 1px solid #333333;
+	border-bottom: 1px solid #333333;
+}
+
+th {
+	width: 13em;
+	text-align: right;
+	padding: .2em 1em .2em 0;
+}
+
+td {
+	text-align: left;
+	padding: .2em 0 .2em 1em;
+}
+
+.tips {
+	font-size: 75%;
+	text-align: left;
+	display: inline-block;
+	vertical-align: top;
+	margin-bottom: 3em;
+	column-count: 2;
+}
+
+ul {
+	margin: 0;
+}
+
 @media screen and (max-width: 480px) {
-  #input {
-    font-size: 200%;
-  }
-  .part-explanation .clickable {
-    padding: .1em .01em;
-    margin: 0 .1em 0 .1em;
-  }
-  table {
-    max-width: 360px;
-  }
-  table th {
-    width: 7em;
-  }
+	#input {
+		font-size: 200%;
+	}
+
+	#partExplanationDiv .clickable {
+		padding: .1em .01em;
+		margin: 0 .1em 0 .1em;
+	}
+
+	table {
+		max-width: 360px;
+	}
+
+	th {
+		width: 7em;
+	}
+
+	.tips {
+		column-count: 1;
+	}
 }
 </style>
 
-<div id="content"><!--+--></div>
-<div id="hr" class="human-readable"></div>
-<div id=anotherDiv class="next-date"></div>
-<div id=randomDiv class="example clickable">random</div>
-<div class="text-editor"><input id="input" autocomplete="off" class="warning" value="5 4 * * SUN-mon"></div>
+<div id="hr"></div>
+<div id=anotherDiv></div>
+<div><input id="input" autocomplete="off"></div>
+<div class="example clickable">random</div>
 <div id="warningDiv">Non standard! May not work with every cron.</div>
-<div id=partExpDiv class="part-explanation">
-  <div class="cron-parts">
-    <div>minute</div>
-    <div>hour</div>
-    <div>day<br>(month)</div>
-    <div>month</div>
-    <div>day<br>(week)</div>
-  </div>
-  <table>
-    <tbody>
-      <tr><th>*</th><td>any value</td></tr>
-      <tr><th>,</th><td>value list separator</td></tr>
-      <tr><th>-</th><td>range of values</td></tr>
-      <tr><th>/</th><td>step values</td></tr>
-    </tbody>
-    <tbody>
-      <tr><th>@yearly</th><td>(non-standard)</td></tr>
-      <tr><th>@annually</th><td>(non-standard)</td></tr>
-      <tr><th>@monthly</th><td>(non-standard)</td></tr>
-      <tr><th>@weekly</th><td>(non-standard)</td></tr>
-      <tr><th>@daily</th><td>(non-standard)</td></tr>
-      <tr><th>@hourly</th><td>(non-standard)</td></tr>
-      <tr><th>@reboot</th><td>(non-standard)</td></tr>
-    </tbody>
-    <tbody>
-      <tr><th>0-59</th><td>allowed values</td></tr>
-    </tbody>
-    <tbody>
-      <tr><th>0-23</th><td>allowed values</td></tr>
-    </tbody>
-    <tbody>
-      <tr><th>1-31</th><td>allowed values</td></tr>
-    </tbody>
-    <tbody>
-      <tr><th>1-12</th><td>allowed values</td></tr>
-      <tr><th>JAN-DEC</th><td>alternative single values</td></tr>
-    </tbody>
-    <tbody>
-      <tr><th>0-6</th><td>allowed values</td></tr>
-      <tr><th>SUN-SAT</th><td>alternative single values</td></tr>
-      <tr><th>7</th><td>sunday (non-standard)</td></tr>
-    </tbody>
-  </table>
+<div id=partExplanationDiv>
+	<div class="cron-parts">
+		<div>minute</div>
+		<div>hour</div>
+		<div>day<br>(month)</div>
+		<div>month</div>
+		<div>day<br>(week)</div>
+	</div>
+	<table>
+		<tbody>
+			<tr><th>*</th><td>any value</td></tr>
+			<tr><th>,</th><td>value list separator</td></tr>
+			<tr><th>-</th><td>range of values</td></tr>
+			<tr><th>/</th><td>step values</td></tr>
+		</tbody>
+		<tbody>
+			<tr><th>@yearly</th><td>(non-standard)</td></tr>
+			<tr><th>@annually</th><td>(non-standard)</td></tr>
+			<tr><th>@monthly</th><td>(non-standard)</td></tr>
+			<tr><th>@weekly</th><td>(non-standard)</td></tr>
+			<tr><th>@daily</th><td>(non-standard)</td></tr>
+			<tr><th>@hourly</th><td>(non-standard)</td></tr>
+			<tr><th>@reboot</th><td>(non-standard)</td></tr>
+		</tbody>
+		<tbody>
+			<tr><th>0-59</th><td>allowed values</td></tr>
+		</tbody>
+		<tbody>
+			<tr><th>0-23</th><td>allowed values</td></tr>
+		</tbody>
+		<tbody>
+			<tr><th>1-31</th><td>allowed values</td></tr>
+		</tbody>
+		<tbody>
+			<tr><th>1-12</th><td>allowed values</td></tr>
+			<tr><th>JAN-DEC</th><td>alternative single values</td></tr>
+		</tbody>
+		<tbody>
+			<tr><th>0-6</th><td>allowed values</td></tr>
+			<tr><th>SUN-SAT</th><td>alternative single values</td></tr>
+			<tr><th>7</th><td>sunday (non-standard)</td></tr>
+		</tbody>
+	</table>
+</div>
+<div class="tips">
+	<ul>
+		<li data-cron="* * * * *">every minute</li>
+		<li data-cron="* * * * *">every 1 minute</li>
+		<li data-cron="*/2 * * * *">every 2 minutes</li>
+		<li data-cron="*/2 * * * *">every even minute</li>
+		<li data-cron="1-59/2 * * * *">every uneven minute</li>
+		<li data-cron="*/3 * * * *">every 3 minutes</li>
+		<li data-cron="*/4 * * * *">every 4 minutes</li>
+		<li data-cron="*/5 * * * *">every 5 minutes</li>
+		<li data-cron="*/5 * * * *">every five minutes</li>
+		<li data-cron="*/6 * * * *">every 6 minutes</li>
+		<li data-cron="*/10 * * * *">every 10 minutes</li>
+		<li data-cron="*/10 * * * *">every ten minutes</li>
+		<li data-cron="*/15 * * * *">every 15 minutes</li>
+		<li data-cron="*/15 * * * *">every fifteen minutes</li>
+		<li data-cron="*/15 * * * *">every quarter hour</li>
+		<li data-cron="*/20 * * * *">every 20 minutes</li>
+		<li data-cron="*/30 * * * *">every 30 minutes</li>
+		<li data-cron="30 * * * *">every hour at 30 minutes</li>
+		<li data-cron="*/30 * * * *">every half hour</li>
+		<li data-cron="0 * * * *">every 60 minutes</li>
+		<li data-cron="0 * * * *">every hour</li>
+		<li data-cron="0 * * * *">every 1 hour</li>
+		<li data-cron="0 */2 * * *">every 2 hours</li>
+		<li data-cron="0 */2 * * *">every two hours</li>
+		<li data-cron="0 */2 * * *">every even hour</li>
+		<li data-cron="0 */2 * * *">every other hour</li>
+		<li data-cron="0 */3 * * *">every 3 hours</li>
+		<li data-cron="0 */3 * * *">every three hours</li>
+		<li data-cron="0 */4 * * *">every 4 hours</li>
+		<li data-cron="0 */6 * * *">every 6 hours</li>
+		<li data-cron="0 */6 * * *">every six hours</li>
+		<li data-cron="0 */8 * * *">every 8 hours</li>
+		<li data-cron="0 */12 * * *">every 12 hours</li>
+		<li data-cron="0 9-17 * * *">hour range</li>
+		<li data-cron="0 9-17 * * *">between certain hours</li>
+		<li data-cron="0 0 * * *">every day</li>
+		<li data-cron="0 0 * * *">daily</li>
+		<li data-cron="0 0 * * *">once a day</li>
+		<li data-cron="0 0 * * *">every night</li>
+		<li data-cron="0 1 * * *">every day at 1am</li>
+		<li data-cron="0 2 * * *">every day at 2am</li>
+		<li data-cron="0 8 * * *">every day 8am</li>
+		<li data-cron="0 9 * * *">every morning</li>
+		<li data-cron="0 0 * * *">every midnight</li>
+		<li data-cron="0 0 * * *">every day at midnight</li>
+		<li data-cron="0 0 * * *">every night at midnight</li>
+		<li data-cron="0 0 * * SUN">every sunday</li>
+		<li data-cron="0 0 * * MON">every monday</li>
+		<li data-cron="0 0 * * TUE">every tuesday</li>
+		<li data-cron="0 0 * * WED">every wednesday</li>
+		<li data-cron="0 0 * * THU">every thursday</li>
+		<li data-cron="0 0 * * FRI">every friday</li>
+		<li data-cron="0 0 * * FRI">every friday at midnight</li>
+		<li data-cron="0 0 * * SAT">every saturday</li>
+		<li data-cron="0 0 * * 1-5">every weekday</li>
+		<li data-cron="0 0 * * 1-5">weekdays only</li>
+		<li data-cron="0 0 * * 1-5">monday to friday</li>
+		<li data-cron="0 0 * * 6,0">every weekend</li>
+		<li data-cron="0 0 * * 6,0">weekends only</li>
+		<li data-cron="0 0 * * 0">every 7 days</li>
+		<li data-cron="0 0 * * 0">weekly</li>
+		<li data-cron="0 0 * * 0">once a week</li>
+		<li data-cron="0 0 * * 0">every week</li>
+		<li data-cron="0 0 1 * *">every month</li>
+		<li data-cron="0 0 1 * *">monthly</li>
+		<li data-cron="0 0 1 * *">once a month</li>
+		<li data-cron="0 0 1 */2 *">every other month</li>
+		<li data-cron="0 0 1 */3 *">every quarter</li>
+		<li data-cron="0 0 1 */6 *">every 6 months</li>
+		<li data-cron="0 0 1 1 *">every year</li>
+	</ul>
 </div>
 
 <script>
-// bug in original: 5 4 */4 3-3/1 SUN
+// bug in original:
+// 0 0 */4 4 0
+// 0 0 29 2 */7
+// never run example:
+// * * 31 4 *
 
-function appendChildModule(parent, children) {
-	for (var i = 0; i < children.length; i++) {
-		if (Array.isArray(children[i])) {
-			appendChildModule(parent, children[i]);
-		} else {
-			if ("number" == typeof children[i] || "boolean" == typeof children[i] || children[i] instanceof Date || children[i] instanceof RegExp) children[i] = children[i].toString();
-			if ("string" == typeof children[i]) children[i] = document.createTextNode(children[i]);
-			if (children[i] && children[i].nodeType) parent.appendChild(children[i]);
-		}
-	}
-}
-
-var exampleobj = {
-	"/every-minute": "* * * * *",
-	"/every-1-minute": "* * * * *",
-	"/every-2-minutes": "*/2 * * * *",
-	"/every-even-minute": "*/2 * * * *",
-	"/every-uneven-minute": "1-59/2 * * * *",
-	"/every-3-minutes": "*/3 * * * *",
-	"/every-4-minutes": "*/4 * * * *",
-	"/every-5-minutes": "*/5 * * * *",
-	"/every-five-minutes": "*/5 * * * *",
-	"/every-6-minutes": "*/6 * * * *",
-	"/every-10-minutes": "*/10 * * * *",
-	"/every-ten-minutes": "*/10 * * * *",
-	"/every-15-minutes": "*/15 * * * *",
-	"/every-fifteen-minutes": "*/15 * * * *",
-	"/every-quarter-hour": "*/15 * * * *",
-	"/every-20-minutes": "*/20 * * * *",
-	"/every-30-minutes": "*/30 * * * *",
-	"/every-hour-at-30-minutes": "30 * * * *",
-	"/every-half-hour": "*/30 * * * *",
-	"/every-60-minutes": "0 * * * *",
-	"/every-hour": "0 * * * *",
-	"/every-1-hour": "0 * * * *",
-	"/every-2-hours": "0 */2 * * *",
-	"/every-two-hours": "0 */2 * * *",
-	"/every-even-hour": "0 */2 * * *",
-	"/every-other-hour": "0 */2 * * *",
-	"/every-3-hours": "0 */3 * * *",
-	"/every-three-hours": "0 */3 * * *",
-	"/every-4-hours": "0 */4 * * *",
-	"/every-6-hours": "0 */6 * * *",
-	"/every-six-hours": "0 */6 * * *",
-	"/every-8-hours": "0 */8 * * *",
-	"/every-12-hours": "0 */12 * * *",
-	"/hour-range": "0 9-17 * * *",
-	"/between-certain-hours": "0 9-17 * * *",
-	"/every-day": "0 0 * * *",
-	"/daily": "0 0 * * *",
-	"/once-a-day": "0 0 * * *",
-	"/every-night": "0 0 * * *",
-	"/every-day-at-1am": "0 1 * * *",
-	"/every-day-at-2am": "0 2 * * *",
-	"/every-day-8am": "0 8 * * *",
-	"/every-morning": "0 9 * * *",
-	"/every-midnight": "0 0 * * *",
-	"/every-day-at-midnight": "0 0 * * *",
-	"/every-night-at-midnight": "0 0 * * *",
-	"/every-sunday": "0 0 * * SUN",
-	"/every-monday": "0 0 * * MON",
-	"/every-tuesday": "0 0 * * TUE",
-	"/every-wednesday": "0 0 * * WED",
-	"/every-thursday": "0 0 * * THU",
-	"/every-friday": "0 0 * * FRI",
-	"/every-friday-at-midnight": "0 0 * * FRI",
-	"/every-saturday": "0 0 * * SAT",
-	"/every-weekday": "0 0 * * 1-5",
-	"/weekdays-only": "0 0 * * 1-5",
-	"/monday-to-friday": "0 0 * * 1-5",
-	"/every-weekend": "0 0 * * 6,0",
-	"/weekends-only": "0 0 * * 6,0",
-	"/every-7-days": "0 0 * * 0",
-	"/weekly": "0 0 * * 0",
-	"/once-a-week": "0 0 * * 0",
-	"/every-week": "0 0 * * 0",
-	"/every-month": "0 0 1 * *",
-	"/monthly": "0 0 1 * *",
-	"/once-a-month": "0 0 1 * *",
-	"/every-other-month": "0 0 1 */2 *",
-	"/every-quarter": "0 0 1 */3 *",
-	"/every-6-months": "0 0 1 */6 *",
-	"/every-year": "0 0 1 1 *"
-};
 function ordinal(str) {
-	var num = parseInt(str);
-	return str + ([undefined, "st", "nd", "rd"][num > 20 ? num % 10 : num] || "th");
+	return str + ([undefined, "st", "nd", "rd"][+str > 20 ? str % 10 : +str] || "th");
 }
 function padZero2(e) {
 	return ("0" + e).slice(-2)
@@ -283,104 +317,32 @@ function describe_strings(list) {
 		default: return list.slice(0, list.length - 1).join(", ") + ", and " + list[list.length - 1]
 	}
 }
-function func_p(e, t, n, r, o) {
-	return ((o ? "" : t + " ") + describe_strings(e.split(",").map(function (e) {
-		if (e === "*") return "every " + t;
-		var o = e.match(/\d+|./g).map(function (e) {
+function func_p(e, fieldName, itemNames, ubound) {
+	e = e.split(",").map(function (x) {
+		if (x == "*") return "every " + fieldName;
+		x = x.match(/\d+|./g).map(function (e) {
 			return isNaN(Number(e)) ? e : Number(e)
-		}), a = o[0];
-		if (Number.isInteger(a)) {
-			if (o.length == 1) {
-				return "" + (n[a] || a);
-			} else if (o.length == 3 && "/" === o[1] && Number.isInteger(o[2])) {
-				return "every " + ordinal(o[2]) + " " + t + " from " + (n[a] || a) + " through " + (n[r] || r);
-			} else if (o.length == 3 && "-" === o[1] && Number.isInteger(o[2]) && o[2] >= a) {
-				return "every " + t + " from " + (n[a] || a) + " through " + (n[o[2]] || o[2]);
-			} else if (o.length == 5 && "-" === o[1] && Number.isInteger(o[2]) && o[2] >= a && "/" === o[3] && Number.isInteger(o[4]) && 1 <= o[4]) {
-				return "every " + ordinal(o[4]) + " " + t + " from " + (n[a] || a) + " through " + (n[o[2]] || o[2]);
+		})
+		if (Number.isInteger(x[0])) {
+			if (x.length == 1) {
+				return "" + (itemNames[x[0]] || x[0]);
+			} else if (x.length == 3 && "/" === x[1] && Number.isInteger(x[2])) {
+				return "every " + ordinal(x[2]) + " " + fieldName + " from " + (itemNames[x[0]] || x[0]) + " through " + (itemNames[ubound] || ubound);
+			} else if (x.length == 3 && "-" === x[1] && Number.isInteger(x[2]) && x[2] >= x[0]) {
+				return "every " + fieldName + " from " + (itemNames[x[0]] || x[0]) + " through " + (itemNames[x[2]] || x[2]);
+			} else if (x.length == 5 && "-" === x[1] && Number.isInteger(x[2]) && x[2] >= x[0] && "/" === x[3] && Number.isInteger(x[4]) && x[4] >= 1) {
+				return "every " + ordinal(x[4]) + " " + fieldName + " from " + (itemNames[x[0]] || x[0]) + " through " + (itemNames[x[2]] || x[2]);
 			}
-		} else if (3 === o.length && "/" === o[1] && Number.isInteger(o[2]) && "*" === o[0]) {
-			return "every " + ordinal(o[2]) + " " + t;
+		} else if (x.length == 3 && "/" === x[1] && Number.isInteger(x[2]) && "*" === x[0]) {
+			return "every " + ordinal(x[2]) + " " + fieldName;
 		}
 		return "";
-	}))).replace("every 1st", "every").replace(t + " every", "every").replace(", " + t, ", ").replace(", and " + t, ", and ")
-}
-var TWO_DIGITS = /^0*\d\d?$/;
-var indexmodule = {};
-indexmodule.describe = function (e) {
-	if ("@reboot" === e.originalParts[0]) return {
-		full: "After rebooting.",
-		special: "After rebooting.",
-	};
-	var part0, part1, part2, part3 = e.parts;
-	var dates = "*" === (part2 = part3[2]) ? "" : "on " + func_p(part2, "day-of-month", {}, 31);
-	var months = "*" === (part1 = part3[3]) ? "" : "in " + func_p(part1, "month", [null, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], 12, true);
-	var weekdays = "*" === (part0 = part3[4]) ? "" : "on " + func_p(part0, "day-of-week", ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], 7, true);
-	var datesWeekdays = dates && weekdays ? (e.daysAnded ? "if it's" : "and") : "";
-	if (TWO_DIGITS.test(part3[0]) && TWO_DIGITS.test(part3[1])) {
-		var d = [padZero2(part3[0]), padZero2(part3[1])];
-		return {
-			start: "At",
-			minutes: d[0],
-			hours: d[1],
-			isTime: true,
-			dates: dates || null,
-			datesWeekdays: datesWeekdays || null,
-			weekdays: weekdays || null,
-			months: months || null,
-			end: ".",
-			full: ("At " + d[1] + ":" + d[0] + " " + dates + " " + datesWeekdays + " " + weekdays + " " + months).replace(/ +/g, " ").trim() + "."
-		};
-	}
-	var m = part3[1], minutes = func_p(part3[0], "minute", {}, 59);
-	var hours = "*" === m ? "" : "past " + func_p(m, "hour", {}, 23);
-	return {
-		start: "At",
-		minutes: minutes || null,
-		hours: hours || null,
-		dates: dates || null,
-		datesWeekdays: datesWeekdays || null,
-		weekdays: weekdays || null,
-		months: months || null,
-		end: ".",
-		full: ("At " + minutes + " " + hours + " " + dates + " " + datesWeekdays + " " + weekdays + " " + months).replace(/ +/g, " ").trim() + ".",
-	}
+	})
+	return ((itemNames.length ? "" : fieldName + " ") + describe_strings(e)).replace("every 1st", "every").replace(fieldName + " every", "every").replace(", " + fieldName, ", ").replace(", and " + fieldName, ", and ")
 }
 
-function substituteStringValue(e, i) {
-	return Object.keys(i).reduce(function (e, t) {
-		var from = new RegExp("(^|[ ,-/])" + t + "($|[ ,-/])", "gi");
-		var to = "$1" + i[t] + "$2";
-		return e.replace(from, to).replace(from, to);
-	}, e)
-}
-indexmodule.prenormalize = function (e) {
-	var t = e.trim().split(/\s+/).filter(e => e);
-	if (t.length == 1 && "@reboot" === t[0]) return {
-		originalParts: t,
-		parts: []
-	};
-	var o = (t.length == 1 ? ({
-		"@yearly": ["0", "0", "1", "1", "*"],
-		"@annually": ["0", "0", "1", "1", "*"],
-		"@monthly": ["0", "0", "1", "*", "*"],
-		"@weekly": ["0", "0", "*", "*", "0"],
-		"@daily": ["0", "0", "*", "*", "*"],
-		"@midnight": ["0", "0", "*", "*", "*"],
-		"@hourly": ["0", "*", "*", "*", "*"]
-	}[t[0]] || [t[0]]) : t).map(function (e, t) {
-		switch (t) {
-			case 3: return substituteStringValue(e, {jan: "1", feb: "2", mar: "3", apr: "4", may: "5", jun: "6", jul: "7", aug: "8", sep: "9", oct: "10", nov: "11", dec: "12"});
-			case 4: return substituteStringValue(e, {sun: "0", mon: "1", tue: "2", wed: "3", thu: "4", fri: "5", sat: "6"});
-			default: return e;
-		}
-	});
-	return {
-		originalParts: t,
-		parts: o,
-		daysAnded: !!o[2] && "*" === o[2][0] || !!o[4] && "*" === o[4][0]
-	}
-}
+
+
 
 function uniq(e) {
 	return e.reduce(function (e, t) {
@@ -393,125 +355,15 @@ function linspaceLike(start, stop, step) {
 	for (var i = start; i <= stop; i += step) r.push(i);
 	return r;
 }
-function func_y(e, t) {
-	var from = /(^|[,-/])\*($|[,-/])/g;
-	var to = "$1" + t + "$2";
-	return e.replace(from, to).replace(from, to)
-}
-function func_g(e, t) {
-	var n = e.split(",").map(function (e) {
-		return function (e, t) {
-			var n = ((e || "").match(/\d+|./g) || []).map(function (e) {
-				var t = Number(e);
-				return isNaN(t) ? e : t
-			})
-			var r = n[0];
-			if (Number.isInteger(r)) {
-				if (n.length == 1) return {
-					list: [r]
-				};
-				if (n.length == 3 && "/" === n[1] && Number.isInteger(n[2]) && 1 <= n[2]) return {
-					list: linspaceLike(r, t, n[2]),
-					warnings: ["nonstandard"]
-				};
-				if (3 === n.length && "-" === n[1] && Number.isInteger(n[2]) && n[2] >= r) return {
-					list: linspaceLike(r, n[2], 1)
-				};
-				if (5 === n.length && "-" === n[1] && Number.isInteger(n[2]) && n[2] >= r && "/" === n[3] && Number.isInteger(n[4]) && 1 <= n[4]) return {
-					list: linspaceLike(r, n[2], n[4])
-				}
-			}
-			return {
-				errors: ["invalid part"],
-			}
-		}(e, t)
-	});
-	return {
-		list: uniq(n.map(e => e.list || []).flat()).sort((a, b) => a - b).filter(e => !isNaN(e)),
-		errors: uniq(n.map(e => e.errors || []).flat()),
-		warnings: uniq(n.map(e => e.warnings || []).flat()),
-	}
-}
-function in_range(e, t, n) {
-	return e.length && (e[0] < t || e[e.length - 1] > n)
-}
-var validCharacters = /[^\d\-\/\,]/i;
-indexmodule.normalize = function (e) {
-	var t = e.parts.map(function (e) {
-		return e.slice(0)
-	}).map(function (e) {
-		return e.replace(/\*\/1(?!\d)/g, "*")
-	});
-	if (t.length == 0 && e.originalParts.length) return {};
-	var result = {
-		errors: [],
-		warnings: [],
-	};
-	if (e.daysAnded !== undefined) result.daysAnded = e.daysAnded;
-	if (t.length != 5) result.errors.push("fields");
-	if (t[0] && t[0].length) {
-		var r = func_y(t[0], "0-59")
-			, o = func_g(r, 59);
-		result.minutes = o.list,
-			(o.errors.length || in_range(result.minutes, 0, 59) || validCharacters.test(r)) && (result.minutes = [],
-				result.errors.push("minutes")),
-			o.warnings.length && result.warnings.push("minutes")
-	} else
-		undefined === t[0] && result.errors.push("minutes");
-	if (t[1] && t[1].length) {
-		var a = func_y(t[1], "0-23")
-			, u = func_g(a, 23);
-		result.hours = u.list,
-			(u.errors.length || in_range(result.hours, 0, 23) || validCharacters.test(a)) && (result.hours = [],
-				result.errors.push("hours")),
-			u.warnings.length && result.warnings.push("hours")
-	} else
-		undefined === t[1] && result.errors.push("hours");
-	if (t[2] && t[2].length) {
-		var i = func_y(t[2], "1-31")
-			, s = func_g(i, 31);
-		result.dates = s.list,
-			(s.errors.length || in_range(result.dates, 1, 31) || validCharacters.test(i)) && (result.dates = [],
-				result.errors.push("dates")),
-			s.warnings.length && result.warnings.push("dates")
-	} else
-		undefined === t[2] && result.errors.push("dates");
-	if (t[3] && t[3].length) {
-		var c = func_y(t[3], "1-12")
-			, l = e.originalParts[3]
-			, d = func_g(c, 12);
-		result.months = d.list,
-			(d.errors.length || in_range(result.months, 1, 12) || validCharacters.test(c)) && (result.months = [],
-				result.errors.push("months")),
-			(d.warnings.length || l && t[3] !== l && 3 < l.length && /\D/.test(l)) && result.warnings.push("months")
-	} else
-		undefined === t[3] && result.errors.push("months");
-	if (t[4] && t[4].length) {
-		var m = func_y(t[4], "0-6")
-			, f = e.originalParts[4]
-			, h = func_g(m, 7);
-		result.weekdays = uniq(h.list.map(function (e) {
-			return 7 === e ? 0 : e
-		})).sort((a, b) => a - b),
-			(h.errors.length || in_range(result.weekdays, 0, 6) || validCharacters.test(m)) && (result.weekdays = [],
-				result.errors.push("weekdays")),
-			(h.warnings.length || h.list.includes(7) || f && t[4] !== f && 3 < f.length && /\D/.test(f)) && result.warnings.push("weekdays")
-	} else
-		undefined === t[4] && result.errors.push("weekdays");
-	result.errors.length || delete result.errors;
-	result.warnings.length || delete result.warnings;
-	return result;
-};
-
-indexmodule.nextDate = function (schedule, time) {
-	if (!(Object.keys(schedule).length && schedule.months.length && schedule.dates.length && schedule.weekdays.length && schedule.hours.length && schedule.minutes.length)) return null;
+function nextDate(schedule, time) {
+	if (!(Object.keys(schedule).length && schedule.months.length && schedule.dates.length && schedule.weekdays.length && schedule.hours.length && schedule.minutes.length)) return undefined;
 
 	var utcMilliseconds = time.getUTCMilliseconds();
 	if (utcMilliseconds != 0) time = new Date(time.getTime() + (1000 - utcMilliseconds));
 	var utcSeconds = time.getUTCSeconds();
 	if (utcSeconds != 0) time = new Date(time.getTime() + 1000 * (60 - utcSeconds));
 
-	for (var depth = 1; depth < 1280; depth++) {
+	for (var depth = 1; depth < 2048; depth++) {
 		var month = time.getUTCMonth() + 1;
 		var year = time.getUTCFullYear();
 		if (!schedule.months.includes(month)) {
@@ -537,430 +389,338 @@ indexmodule.nextDate = function (schedule, time) {
 		}
 		return time;
 	}
-	console.log("找一百年都找不到触发的日子（恼");
-	return null;
+	return undefined;
 };
 
 setTimeout(function () {
-	e("setNextMinute", new Date, t);
+	state.date = new Date
+	update()
 	setInterval(function () {
-		e("setNextMinute", new Date, t);
+		state.date = new Date
+		update()
 	}, 60000);
 }, 1000 * (61 - new Date().getUTCSeconds()));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function choo() {
-	// barracks
-	var barC = function (e, t, n, r, o, a) {
-		e.forEach(function (e) {
-			e(t, n, r, o, a)
-		})
-	};
-	function barN(n, r, o, a) {
-		n && !o[n] && (o[n] = {});
-			Object.keys(r).forEach(function (e) {
-				var t = a ? a(r[e], e) : r[e];
-				n ? o[n][e] = t : o[e] = t
-			})
-	}
-	function barT(t, e) {
-		e.forEach(function (e) {
-			t = e(t)
-		})
-		return t
-	}
-	var thatStor = m._store = function (e) {
-		var p = []
-			, v = []
-			, tgui = [function () {
-				return function (e) { if (e) throw e; }
-			}]
-			, s = []
-			, a = []
-		t(e = e || {});
-		var hasReducer = false
-			, hasStatee = false
-			, g = n._reducers = {}
-			, w = n._models = []
-			, x = {};
-		n.model = function (e) {
-			w.push(e)
-		}
-			n.state = function (e) {
-				var r = (e = e || {}).state;
-				if (!e.state && false === e.freeze)
-					return Object.assign({}, x);
-				if (!e.state)
-					return Object.freeze(Object.assign({}, x));
-				var o = []
-					, a = {};
-				w.forEach(function (e) {
-					var t = e.namespace;
-					o.push(t);
-					var n = e.state || {};
-					t ? (a[t] = a[t] || {},
-						barN(t, n, a),
-						a[t] = Object.assign({}, a[t], r[t])) : Object.assign(a, n)
-				}),
-					Object.keys(r).forEach(function (e) {
-						-1 === o.indexOf(e) && (a[e] = r[e])
-					});
-				return Object.freeze(barT(Object.assign({}, x, r, a), s))
-			}
-			n.start = n
-			n.use = t
-			return n;
-		function t(e) {
-			e.onStateChange && p.push(e.onStateChange)
-		}
-		function n(n) {
-			n = n || {};
-				w.forEach(function (e) {
-					var r = e.namespace;
-					if (!hasStatee && e.state && false !== n.state) {
-						var t = e.state || {};
-						r ? (x[r] = x[r] || {},
-							barN(r, t, x)) : Object.assign(x, t)
-					}
-					!hasReducer && e.reducers && false !== n.reducers && barN(r, e.reducers, g, function (e) {
-						return barT(e, a)
-					})
-				})
-				hasStatee || false === n.state || (x = barT(x, s));
-				n.noReducers || (hasReducer = true);
-				n.noState || (hasStatee = true)
-			return h;
-			function h(o, a) {
-				return function (e, t, n) {
-					n || a || (n = t,
-						t = null);
-					var r = a ? function (e) {
-						(e = e || null) && barC(tgui, e, x, function (n) {
-							return function (e, t) {
-								u(e, t = undefined === t ? null : t, n, r)
-							}
-						})
-					}
-						: n;
-					u(e, t = undefined === t ? null : t, o, r)
-				}
-			}
-			function u(actionName, d, m, f) {
-				setTimeout(function () {
-					var n = Object.assign({}, x);
-					v.length && barC(v, d, x, actionName, m, h);
-					Object.assign(n, g[actionName](d, x));
-					p.length && barC(p, d, n, x, actionName, h)
-					f(null, x = n)
-				}, 0)
-			}
-		}
-	}()
-	var thisRouter = m._router = null
-	var i = null
-	thatStor.use({
-		onStateChange: function (e, t, n) {
-			 thisRouter("", t, n);
-		}
-	});
-	m.toString = function (e, t) {
-		t = t || {},
-			thatStor.start({
-				reducers: false,
-			});
-		var n = thatStor.state({
-			state: t
-		})
-		var r = f(i, null, function () {
-			return function () { }
-		})(e, n);
-		return r.outerHTML || r.toString()
-	},
-		m.router = function (e) {
-			i = e;
-		},
-		m.model = function (e) {
-			thatStor.model(e)
-		};
-	m.start = m;
-	m.use = function (e) {
-		thatStor.use(e)
-	};
-	return m;
-	function m(startingState) {
-		thatStor.model(function () {
-			return {
-				namespace: "location",
-				reducers: {
-					setLocation: function (e, t) {
-						return {
-							pathname: e.location.replace(/#.*/, "")
-						}
-					}
-				},
-				state: {
-					pathname: location.href
-				}
-			};
-		}(startingState));
-		var t = thatStor.start(startingState);
-		thisRouter = m._router = f(i, null, t);
-		var r = thatStor.state({
-			state: {}
-		});
-		var o = thisRouter(r.location.pathname, r);
-		return c = o
-	}
-	function f(e, t, u) {
-		var i = {
-			params: {}
-		};
-		return function (e, param1, n) {
-			var uxy = e(n((e, t, n) => ["", null, t]))[0][2];
-			return function (x, y, z) {
-				return uxy(x, y, z)
-			}
-		}(e, t, function (r) {
-			return function (e, t, n) {
-				var o, a
-				"function" == typeof t && (o = t,
-					a = u("view: " + e, true),
-					t = function (e, t) {
-						var n = i
-						var r = i = Object.assign({}, t, { params: e });
-						Object.freeze(r)
-						return o(r, n, a)
-					}
-				);
-				return r(e, t, n);
-			}
-		})
-	}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var randomExamplesArray = [
 	"5 0 * 8 *",
-	"15 14 1 * *", "0 22 * * 1-5", "23 0-20/2 * * *", "5 4 * * sun", "0 0,12 1 */2 *", "0 4 8-14 * *", "0 0 1,15 * 3", "@weekly"]
-	, normalizeSpace = function (e) {
-		return e.trim().replace(/ +/g, " ")
-	};
-function veryPreNorm(text) {
+	"15 14 1 * *",
+	"0 22 * * 1-5",
+	"23 0-20/2 * * *",
+	"5 4 * * sun",
+	"0 0,12 1 */2 *",
+	"0 4 8-14 * *",
+	"0 0 1,15 * 3",
+	"@weekly",
+]
+var normalizeSpace = function (e) {
+	return e.trim().replace(/\s+/g, " ")
+};
+function parseSchedule(text) {
 	text = normalizeSpace(text)
-	var prenormalized = indexmodule.prenormalize(text)
-	var schedule = indexmodule.normalize(prenormalized)
-	var description = schedule.errors ? null : indexmodule.describe(prenormalized);
+
+	// prenormalize
+	var originalParts = text.split(" ")
+	var prenormalized
+	if (originalParts.length == 1 && "@reboot" == originalParts[0]) {
+		prenormalized = {
+			originalParts: originalParts,
+			parts: [],
+		}
+	} else {
+		var parts = (originalParts.length == 1 ? ({
+			"@yearly": ["0", "0", "1", "1", "*"],
+			"@annually": ["0", "0", "1", "1", "*"],
+			"@monthly": ["0", "0", "1", "*", "*"],
+			"@weekly": ["0", "0", "*", "*", "0"],
+			"@daily": ["0", "0", "*", "*", "*"],
+			"@midnight": ["0", "0", "*", "*", "*"],
+			"@hourly": ["0", "*", "*", "*", "*"],
+		}[originalParts[0]] || [originalParts[0]]) : originalParts).map(function (e, t) {
+			var i;
+			if (t == 3) {
+				i = { jan: "1", feb: "2", mar: "3", apr: "4", may: "5", jun: "6", jul: "7", aug: "8", sep: "9", oct: "10", nov: "11", dec: "12" }
+			} else if (t == 4) {
+				i = { sun: "0", mon: "1", tue: "2", wed: "3", thu: "4", fri: "5", sat: "6" }
+			} else {
+				return e
+			}
+			return Object.keys(i).reduce(function (e, t) {
+				var from = new RegExp("(^|[ ,-/])" + t + "($|[ ,-/])", "gi");
+				var to = "$1" + i[t] + "$2";
+				return e.replace(from, to).replace(from, to);
+			}, e)
+		})
+
+		prenormalized = {
+			originalParts: originalParts,
+			parts: parts,
+			daysAnded: !!parts[2] && "*" === parts[2][0] || !!parts[4] && "*" === parts[4][0]
+		}
+	}
+
+	// normalize
+	var validCharacters = /[^\d\-\/\,]/i;
+	var npts = prenormalized.parts.map(function (e) {
+		return e.slice(0)
+	}).map(function (e) {
+		return e.replace(/\*\/1(?!\d)/g, "*")
+	});
+	var schedule
+	if (npts.length == 0 && prenormalized.originalParts.length) {
+		schedule = {}
+	} else {
+		schedule = {
+			errors: [],
+			warnings: [],
+			daysAnded: prenormalized.daysAnded,
+		}
+		if (npts.length != 5) schedule.errors.push("fields");
+		[["minutes", 0, 59], ["hours", 0, 23], ["dates", 1, 31], ["months", 1, 12], ["weekdays", 0, 6]].forEach(function (bounds, kk) {
+			var key = bounds[0], lbound = bounds[1], ubound = bounds[2]
+			if (npts[kk] && npts[kk].length) {
+				var from = /(^|[,-/])\*($|[,-/])/g
+				var to = "$1" + lbound + "-" + ubound + "$2"
+				var v1 = npts[kk].replace(from, to).replace(from, to)
+				var v2 = {
+					errors: [],
+					warnings: [],
+				}
+				schedule[key] = []
+				v1.split(",").forEach(function (e) {
+					var n = ((e || "").match(/\d+|./g) || []).map(function (e) {
+						return isNaN(Number(e)) ? e : Number(e)
+					})
+					if (Number.isInteger(n[0])) {
+						if (n.length == 1) {
+							schedule[key].push(n[0])
+						} else if (n.length == 3 && "/" === n[1] && Number.isInteger(n[2]) && 1 <= n[2]) {
+							schedule[key] = schedule[key].concat(linspaceLike(n[0], ubound, n[2]))
+							v2.warnings.push("nonstandard")
+						} else if (n.length == 3 && "-" === n[1] && Number.isInteger(n[2]) && n[2] >= n[0]) {
+							schedule[key] = schedule[key].concat(linspaceLike(n[0], n[2], 1))
+						} else if (n.length == 5 && "-" === n[1] && Number.isInteger(n[2]) && n[2] >= n[0] && "/" === n[3] && Number.isInteger(n[4]) && 1 <= n[4]) {
+							schedule[key] = schedule[key].concat(linspaceLike(n[0], n[2], n[4]))
+						}
+					} else {
+						v2.errors.push("invalid part")
+					}
+				})
+				if (kk == 4) schedule[key] = schedule[key].map(function (x) {
+					return x === 7 ? (v2.warnings.push("sunday"), 0) : x
+				})
+				schedule[key] = uniq(schedule[key]).sort((a, b) => a - b).filter(e => !isNaN(e))
+				v2.errors = uniq(v2.errors)
+				v2.warnings = uniq(v2.warnings)
+				var v4 = prenormalized.originalParts[kk]
+				var out_of_range = schedule[key].length && (schedule[key][0] < lbound || schedule[key][schedule[key].length - 1] > ubound)
+				if (v2.errors.length || out_of_range || validCharacters.test(v1)) {
+					schedule[key] = []
+					schedule.errors.push(key)
+				}
+				if (v2.warnings.length || (kk >= 3 && v4 && npts[kk] !== v4 && v4.length > 3 && /\D/.test(v4))) {
+					schedule.warnings.push(key)
+				}
+			} else if (npts[kk] === undefined) {
+				schedule.errors.push(key)
+			}
+		})
+		schedule.errors.length || delete schedule.errors;
+		schedule.warnings.length || delete schedule.warnings;
+	}
+
+	// describe
+	var description
+	if (!schedule.errors) {
+		if ("@reboot" == prenormalized.originalParts[0]) {
+			description = {
+				special: "After rebooting.",
+			}
+		} else {
+			var dates = prenormalized.parts[2] == "*" ? "" : "on " + func_p(prenormalized.parts[2], "day-of-month", [], 31)
+			var months = prenormalized.parts[3] == "*" ? "" : "in " + func_p(prenormalized.parts[3], "month", [undefined, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], 12)
+			var weekdays = prenormalized.parts[4] == "*" ? "" : "on " + func_p(prenormalized.parts[4], "day-of-week", ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], 7)
+			var datesWeekdays = dates && weekdays ? (prenormalized.daysAnded ? "if it's" : "and") : ""
+			description = {
+				start: "At",
+				dates: dates || undefined,
+				datesWeekdays: datesWeekdays || undefined,
+				weekdays: weekdays || undefined,
+				months: months || undefined,
+				end: ".",
+			}
+			var TWO_DIGITS = /^0*\d\d?$/
+			if (TWO_DIGITS.test(prenormalized.parts[0]) && TWO_DIGITS.test(prenormalized.parts[1])) {
+				description.minutes = padZero2(prenormalized.parts[0])
+				description.hours = padZero2(prenormalized.parts[1])
+				description.isTime = true
+			} else {
+				description.minutes = func_p(prenormalized.parts[0], "minute", [], 59) || undefined
+				description.hours = prenormalized.parts[1] == "*" ? undefined : "past " + func_p(prenormalized.parts[1], "hour", [], 23);
+			}
+		}
+	}
 	return {
+		text: text,
 		schedule: schedule,
 		description: description,
 		isSpecialString: text.startsWith("@")
 	}
 }
-var insideText = "5 4 * * *", veryPNText = veryPreNorm(insideText);
+var state = Object.assign({
+	exampleIndex: 0,
+	selectedPart: undefined,
+	selectedDirectly: false,
+	date: new Date,
+	focussed: false,
+}, parseSchedule("5 4 * * *"))
 
-var app = choo();
-app.model({
-	state: {
-		text: insideText,
-		schedule: veryPNText.schedule,
-		description: veryPNText.description,
-		exampleIndex: 0,
-		selectedPart: null,
-		selectedDirectly: false,
-		isSpecialString: veryPNText.isSpecialString,
-		date: new Date,
-		focussed: false,
-	},
-	reducers: {
-		showNextExample: function (e, t) {
-			var n = randomExamplesArray[t.exampleIndex]
-				, r = veryPreNorm(n);
-			return {
-				text: n,
-				schedule: r.schedule,
-				description: r.description,
-				exampleIndex: (t.exampleIndex + 1) % randomExamplesArray.length,
-				isSpecialString: r.isSpecialString
-			}
-		},
-		inputFocus: function (e, t) {
-			return { focussed: true }
-		},
-		inputBlur: function (e, t) {
-			return {
-				text: normalizeSpace(t.text),
-				selectedPart: null,
-				focussed: false
-			}
-		},
-		selectPart: function (e, t) {
-			return {
-				selectedPart: t.isSpecialString ? null : e,
-				selectedDirectly: false
-			}
-		},
-		inputUpdate: function (e, t) {
-			return { text: e }
-		},
-		inputEnter: function (e, t) {
-			return veryPreNorm(e)
-		},
-		inputSelect: function (e, t) {
-			if (!t.focussed) return {};
-			if (t.isSpecialString) return {
-				selectedPart: null,
-				selectedDirectly: true
-			};
-			var o = normalizeSpace(t.text.substring(0, e.selectionStart + 1)).split(" ").length;
-			return {
-				selectedPart: o === normalizeSpace(t.text.substring(0, e.selectionEnd + 1)).split(" ").length ? Math.max(Math.min(o, 5), 1) : null,
-				selectedDirectly: true
-			}
-		},
-		setNextMinute: function (e, t) {
-			return { date: e }
-		}
-	},
+// showNextExample
+document.getElementsByClassName("example")[0].onclick = function () {
+	Object.assign(state, parseSchedule(randomExamplesArray[state.exampleIndex]))
+	state.exampleIndex = (state.exampleIndex + 1) % randomExamplesArray.length
+	update()
+}
+document.querySelectorAll("[data-cron]").forEach(function (el) {
+	el.className = "clickable"
+	el.onclick = function () {
+		Object.assign(state, parseSchedule(this.getAttribute("data-cron")))
+		update()
+		input.focus()
+	}
 })
-app.router(function (e) {
-	return [e("/", function (state, prevState, takeAction) {
-		// human readable
-		function activeClass(part, t) {
-			return t.selectedPart === part ? "active" : ""
-		}
-		hr.innerHTML = ""
-		if (state.description) {
-			var humanDesc = state.description;
-			var span2 = document.createElement("span");
-			span2.setAttribute("class", activeClass(1, state));
-			appendChildModule(span2, [humanDesc.minutes]);
-			var span3 = document.createElement("span");
-			span3.setAttribute("class", activeClass(2, state));
-			appendChildModule(span3, [humanDesc.hours]);
-			var span4 = document.createElement("span");
-			span4.setAttribute("class", activeClass(3, state));
-			appendChildModule(span4, [humanDesc.dates]);
-			var span5 = document.createElement("span");
-			appendChildModule(span5, [humanDesc.datesWeekdays]);
-			var span6 = document.createElement("span");
-			span6.setAttribute("class", activeClass(5, state));
-			appendChildModule(span6, [humanDesc.weekdays]);
-			var span7 = document.createElement("span");
-			span7.setAttribute("class", activeClass(4, state));
-			appendChildModule(span7, [humanDesc.months]);
+input.oninput = function (e) {
+	Object.assign(state, parseSchedule(e.target.value))
+	update()
+};
+input.onblur = function (e) {
+	state.text = normalizeSpace(state.text)
+	state.selectedPart = undefined
+	state.focussed = false
+	update()
+};
+input.onfocus = function (e) {
+	state.focussed = true
+	input.onselect()
+};
+input.onselect = input.onmousedown = input.onkeyup = input.onmouseup = function () {
+	if (!state.focussed) return
+	if (state.isSpecialString) {
+		state.selectedPart = undefined
+		state.selectedDirectly = true
+	} else {
+		var o = normalizeSpace(state.text.substring(0, input.selectionStart + 1)).split(" ").length
+		state.selectedPart = o === normalizeSpace(state.text.substring(0, input.selectionEnd + 1)).split(" ").length ? Math.max(Math.min(o, 5), 1) : undefined
+		state.selectedDirectly = true
+	}
+	update()
+}
+for (var jj = 0; jj < 5; jj++) {
+	partExplanationDiv.children[0].children[jj].onclick = (ii => function () {
+		state.selectedPart = state.isSpecialString ? undefined : ii + 1
+		state.selectedDirectly = false
+		update()
+	})(jj)
+}
+function update() {
+	// human readable
+	function activeClass(part, t) {
+		return t.selectedPart === part ? "active" : ""
+	}
+	hr.innerHTML = ""
+	if (state.description) {
+		var humanDesc = state.description;
+		var span2 = document.createElement("span");
+		span2.setAttribute("class", activeClass(1, state));
+		span2.textContent = humanDesc.minutes
+		var span3 = document.createElement("span");
+		span3.setAttribute("class", activeClass(2, state));
+		span3.textContent = humanDesc.hours
+		var span4 = document.createElement("span");
+		span4.setAttribute("class", activeClass(3, state));
+		span4.textContent = humanDesc.dates
+		var span5 = document.createElement("span");
+		span5.textContent = humanDesc.datesWeekdays
+		var span6 = document.createElement("span");
+		span6.setAttribute("class", activeClass(5, state));
+		span6.textContent = humanDesc.weekdays
+		var span7 = document.createElement("span");
+		span7.setAttribute("class", activeClass(4, state));
+		span7.textContent = humanDesc.months
 
-			if (humanDesc.special) {
-				hr.textContent = humanDesc.special;
-			} else if (humanDesc.isTime) {
-				appendChildModule(hr, [humanDesc.start, " ", span3, ":", span2, humanDesc.dates ? " " : "", span4, humanDesc.datesWeekdays ? " " : "", span5, humanDesc.weekdays ? " " : "", span6, humanDesc.months ? " " : "", span7, humanDesc.end]);
+		if (humanDesc.special) {
+			hr.textContent = humanDesc.special
+		} else {
+			hr.textContent = humanDesc.start
+			if (humanDesc.isTime) {
+				hr.appendChild(document.createTextNode(" "))
+				hr.appendChild(span3)
+				hr.appendChild(document.createTextNode(":"))
+				hr.appendChild(span2)
 			} else {
-				appendChildModule(hr, [humanDesc.start, humanDesc.minutes ? " " : "", span2, humanDesc.hours ? " " : "", span3, humanDesc.dates ? " " : "", span4, humanDesc.datesWeekdays ? " " : "", span5, humanDesc.weekdays ? " " : "", span6, humanDesc.months ? " " : "", span7, humanDesc.end]);
+				if (humanDesc.minutes) hr.appendChild(document.createTextNode(" "))
+				hr.appendChild(span2)
+				if (humanDesc.hours) hr.appendChild(document.createTextNode(" "))
+				hr.appendChild(span3)
 			}
+			if (humanDesc.dates) hr.appendChild(document.createTextNode(" "))
+			hr.appendChild(span4)
+			if (humanDesc.datesWeekdays) hr.appendChild(document.createTextNode(" "))
+			hr.appendChild(span5)
+			if (humanDesc.weekdays) hr.appendChild(document.createTextNode(" "))
+			hr.appendChild(span6)
+			if (humanDesc.months) hr.appendChild(document.createTextNode(" "))
+			hr.appendChild(span7)
+			hr.appendChild(document.createTextNode(humanDesc.end))
 		}
+	}
 
-		// next-date
-		var counter = 5;
-		if (state.schedule && !state.schedule.errors) {
-			var somedate = state.date;
-			somedate = new Date(Date.UTC(somedate.getFullYear(), somedate.getMonth(), somedate.getDate(), somedate.getHours(), somedate.getMinutes(), somedate.getSeconds()));
-			somedate = indexmodule.nextDate(state.schedule, somedate);
-			if (somedate) {
-				var ulist = [somedate]
-				while (--counter) {
-					somedate = indexmodule.nextDate(state.schedule, new Date(somedate.getTime() + 1));
-					ulist.push(somedate);
-				}
-				anotherDiv.innerHTML = ulist.map(function (e, t) {
-					return [t ? "then" : "next", " at ", e.getUTCFullYear(), "-", padZero2(e.getUTCMonth() + 1), "-", padZero2(e.getUTCDate()), " ", padZero2(e.getUTCHours()), ":", padZero2(e.getUTCMinutes()), ":00"].join("")
-				}).join("<br>");
+	// next-date
+	anotherDiv.innerHTML = ""
+	if (state.schedule && !state.schedule.errors) {
+		var somedate = nextDate(state.schedule, new Date(Date.UTC(state.date.getFullYear(), state.date.getMonth(), state.date.getDate(), state.date.getHours(), state.date.getMinutes(), state.date.getSeconds())));
+		if (somedate) {
+			var ulist = [somedate]
+			for (var counter = 0; counter < 5; counter++) {
+				somedate = nextDate(state.schedule, new Date(somedate.getTime() + 1));
+				ulist.push(somedate);
 			}
+			anotherDiv.innerHTML = ulist.map(function (e, t) {
+				return [t ? "then" : "next", " at ", e.getUTCFullYear(), "-", padZero2(e.getUTCMonth() + 1), "-", padZero2(e.getUTCDate()), " ", padZero2(e.getUTCHours()), ":", padZero2(e.getUTCMinutes()), ":00"].join("")
+			}).join("<br>");
 		}
+	}
 
-		// random example
-		randomDiv.onclick = function () {
-			return takeAction("showNextExample")
-		};
+	// text-editor
+	if (state.selectedPart && !state.selectedDirectly) {
+		var parts = state.text.split(" ").slice(0, state.selectedPart)
+		var selLen = parts.pop().length
+		var selSta = parts.join(" ").length;
+		if (selSta > 0) selSta++;
+		input.selectionStart = selSta;
+		input.selectionEnd = selSta + selLen;
+		input.focus()
+	}
+	input.className = state.schedule.errors ? "invalid" : state.schedule.warnings ? "warning" : ""
+	if (!state.focussed) input.value = state.text;
 
-		// text-editor
-		if (state.selectedPart && state.selectedPart !== prevState.selectedPart && !state.selectedDirectly) {
-			var parts = state.text.split(" ").slice(0, state.selectedPart)
-			var selLen = parts.pop().length
-			var selSta = parts.join(" ").length;
-			if (selSta > 0) selSta++;
-			setTimeout(function () {
-				input.selectionStart = selSta;
-				input.selectionEnd = selSta + selLen;
-				input.focus()
-			}, 0);
+	// warning
+	warningDiv.style.display = state.schedule.warnings ? "" : "none"
+
+	// part-explanation
+	for (var ii = 0; ii < 5; ii++) {
+		var el = partExplanationDiv.children[0].children[ii]
+		el.className = "clickable";
+		if (state.selectedPart == ii + 1) el.classList.add("active");
+		var r = ["minutes", "hours", "dates", "months", "weekdays"][ii];
+		if (state.schedule.errors && state.schedule.errors.includes(r)) {
+			el.classList.add("invalid")
+		} else if (state.schedule.warnings && state.schedule.warnings.includes(r)) {
+			el.classList.add("warning")
 		}
-		input.className = state.schedule.errors ? "invalid" : state.schedule.warnings ? "warning" : ""
-		if (!state.focussed) input.value = state.text;
-		input.oninput = function (e) {
-			takeAction("inputUpdate", e.target.value);
-			takeAction("inputEnter", e.target.value)
-		};
-		input.onblur = function (e) {
-			takeAction("inputBlur")
-		};
-		input.onfocus = function (e) {
-			takeAction("inputFocus");
-			takeAction("inputSelect", e.target)
-		};
-		input.onselect = input.onkeydown = input.onmousedown = input.onkeyup = input.onmouseup = function (e) {
-			takeAction("inputSelect", e.target)
-		}
-
-		// warning
-		warningDiv.style.display = state.schedule.warnings ? "" : "none"
-
-		// part-explanation
-		for (var ii = 0; ii < 5; ii++) {
-			var el = partExpDiv.children[0].children[ii]
-			el.className = "clickable";
-			if (state.selectedPart == ii + 1) el.classList.add("active");
-			var r = ["minutes", "hours", "dates", "months", "weekdays"][ii];
-			if (state.schedule.errors && state.schedule.errors.includes(r)) {
-				el.classList.add("invalid")
-			} else if (state.schedule.warnings && state.schedule.warnings.includes(r)) {
-				el.classList.add("warning")
-			}
-			el.onclick = (ii => function () { takeAction("selectPart", ii + 1) })(ii)
-		}
-		partExpDiv.children[1].children[1].style.display = state.selectedPart === null ? "" : "none"
-		partExpDiv.children[1].children[2].style.display = state.selectedPart === 1 ? "" : "none"
-		partExpDiv.children[1].children[3].style.display = state.selectedPart === 2 ? "" : "none"
-		partExpDiv.children[1].children[4].style.display = state.selectedPart === 3 ? "" : "none"
-		partExpDiv.children[1].children[5].style.display = state.selectedPart === 4 ? "" : "none"
-		partExpDiv.children[1].children[6].style.display = state.selectedPart === 5 ? "" : "none"
-		return new Image
-	})]
-});
-content.replaceChild(app.start({}), content.firstChild)
+	}
+	for (var ii = 0; ii < 6; ii++) {
+		partExplanationDiv.children[1].children[ii + 1].style.display = state.selectedPart === (ii ? ii : undefined) ? "" : "none"
+	}
+}
+update()
 </script>
