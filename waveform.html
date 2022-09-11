@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<title>Arbitrary waveform converter</title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Convert single-channel waveforms between formats for Agilent 33500 series (.ARB), Tektronix AFG3000 series (.TFW) and ASCII sample list (.TXT).">
+<style>
+	body {
+		background: url(data:image/jpeg;base64,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);
+		text-align: center;
+		color: white;
+	}
+
+	a {
+		color: cyan;
+	}
+
+	a:active {
+		color: yellow;
+	}
+
+	table {
+		margin: auto;
+	}
+
+	th {
+		text-align: right;
+	}
+</style>
+<table border="1">
+	<tr>
+		<th width="50%"><label for="input">波形文件</label></th>
+		<td width="50%"><input type="file" id="input"></td>
+	</tr>
+	<tr>
+		<th>源格式</th>
+		<td><output id="source"></output></td>
+	</tr>
+	<tr>
+		<td colspan="2"><canvas id="preview"></canvas></td>
+	</tr>
+	<tr>
+		<th>目标格式</th>
+		<td><select id="destination"></select></td>
+	</tr>
+	<tr>
+		<td colspan="2"><button id="output">保存</button></td>
+	</tr>
+</table>
+<footer>
+	<span>Requires a modern browser.</span>
+	<a href="https://github.com/Salenzo/Utilities/blob/master/waveform.html">Source code</a>
+	<br>
+	<span>&copy; Frog Chen 2022.</span>
+	<span>References:</span>
+	<a href="https://www.mathworks.com/matlabcentral/fileexchange/57332-createtfw-inputsignal-filename">Martin Sanz's <code>createTFW</code> function for MATLAB</a>
+</footer>
+<script>
+const identity = x => x;
+const swapBytes16 = x => (x & 0xff) << 8 | x >> 8 & 0xff;
+const bigEndian = !new Uint8Array(new Uint16Array([1]).buffer)[0];
+const ntohs = bigEndian ? identity : swapBytes16;
+const htons = ntohs;
+const formats = {
+	arb: {
+		name: "Agilent 33500 series (.ARB)",
+		header: new TextEncoder().encode("File Format:1.10"),
+		reader: buffer => {
+			buffer = new TextDecoder().decode(buffer).split("Data:", 2);
+			const metadata = JSON.parse('{"' + buffer[0].trim().replace(/\n/g, ',"').replace(/:/g, '":') + "}");
+			console.log(metadata);
+			return Float64Array.from(buffer[1].trim().split(/\s+/), x => x / 32768);
+		},
+		writer: samples => {
+			let data = "File Format:1.10\r\nChannel Count:1\r\n\Sample Rate:10000\r\n";
+			data += `High Level:1\r\nLow Level:${0}\r\nFilter:"NORMAL"\r\nData Points:${samples.length}\r\nData:\r\n`;
+			data += samples.map(x => Math.floor(x * 32768)).join("\r\n");
+			data += "\r\n";
+			return new TextEncoder().encode(data);
+		},
+	},
+	tfw: {
+		name: "Tektronix AFG3000 series (.TFW)",
+		header: Uint8Array.from("TEKAFG3000\0\0\0\0\0\0\x01\x31\xf0\xc2", x => x.charCodeAt(0)),
+		reader: buffer => Float64Array.from(new Uint16Array(buffer, 0x200), x => ntohs(x) / 8191 - 1),
+		writer: samples => {
+			const data = new ArrayBuffer(0x200 + samples.length * 2);
+			const view = new DataView(data);
+			new Uint8Array(data).set(formats.tfw.header);
+			view.setUint32(0x14, samples.length, false);
+			view.setUint8(0x1b, 1);
+			for (let i = 0; i < 412; i++) {
+				// Bad resampling method. But it's just for the preview.
+				const j = i * samples.length / 412;
+				const sample = samples[Math.floor(j)] * (1 - j % 1) + samples[Math.ceil(j)] * (j % 1);
+				view.setUint8(0x1c + i, Math.round((sample + 1) * 127));
+			}
+			samples.forEach((x, i) => view.setUint16(0x200 + i * 2, Math.round((x + 1) * 8191), false));
+			return view;
+		},
+	},
+	csv: {
+		name: "ASCII sample list (.CSV, .TXT)",
+		header: new Uint8Array(),
+		reader: buffer => new TextDecoder("latin1").decode(buffer).split(/[^\d\.e+-]+/i).map(parseFloat).filter(x => x === x),
+		writer: samples => new TextEncoder().encode(samples.join("\r\n") + "\r\n"),
+	},
+};
+for (let i in formats) {
+	const option = document.createElement("option");
+	option.value = i;
+	option.text = formats[i].name;
+	destination.add(option);
+}
+let samples;
+input.onchange = event => {
+	if (!event.target.files.length) return;
+	let reader = new FileReader();
+	reader.onload = () => {
+		const array = new Uint8Array(reader.result);
+		if (!array) return;
+		for (let i in formats) {
+			if (formats[i].header.every((x, i) => x == array[i])) {
+				source.textContent = formats[i].name;
+				samples = formats[i].reader(array.buffer);
+				break;
+			}
+		}
+		samples.map
+		const ctx = preview.getContext("2d");
+		ctx.reset();
+		ctx.clearRect(0, 0, preview.width, preview.height);
+		ctx.beginPath();
+		for (let i = 0; i < preview.width; i++) {
+			if (i < samples.length) {
+				ctx.lineTo(i, preview.height / 2 - samples[i] * (preview.height / 2 - 1));
+			} else {
+				break;
+			}
+		}
+		ctx.lineWidth = 1.5;
+		ctx.strokeStyle = getComputedStyle(preview).color;
+		ctx.stroke();
+		ctx.lineWidth = 1;
+		ctx.globalAlpha = .5;
+		ctx.beginPath();
+		ctx.moveTo(0, preview.height / 2);
+		ctx.lineTo(preview.width, preview.height / 2);
+		ctx.stroke();
+		if (samples.length > preview.width) {
+			ctx.setLineDash([7, 7]);
+			ctx.globalAlpha = .75;
+			ctx.beginPath();
+			ctx.moveTo(preview.width - 1, 0);
+			ctx.lineTo(preview.width - 1, preview.height);
+			ctx.stroke();
+		}
+	}
+	reader.readAsArrayBuffer(event.target.files[0]);
+};
+output.onclick = () => {
+	const el = document.createElement("a");
+	el.setAttribute("download", input.files[0].name + "." + destination.value);
+	el.setAttribute("href", URL.createObjectURL(new Blob([formats[destination.value].writer(samples).buffer], {type: "application/octet-stream"})));
+	el.click();
+};
+</script>
