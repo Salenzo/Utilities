@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<title>Convert pixel-art to pixel-perfect SVG</title>
+<style>
+  html {
+    background-color: seagreen;
+    color: white;
+  }
+
+  pre {
+    user-select: all;
+    overflow-x: hidden;
+  }
+
+  path {
+    stroke: black;
+    stroke-width: 0.05px;
+  }
+
+</style>
+<p>
+  This is an advanced pixel-art-to-SVG-path converter.
+  It takes advantage of <code>fillrule="evenodd"</code>,
+  and for each color, returns a filled path with the fewest path segments
+  using an algorithm for finding Eulerian circuits.
+  Other approaches include <a href="https://codepen.io/shshaw/pen/XbxvNj">a clever offset bounding box leveraging stroked paths</a>,
+  and of course <a href="https://www.aseprite.org/">one <code>&lt;rect&gt;</code> per pixel</a>.
+</p>
+<input type="file" id="uploader" multiple accept="image/*">
+<div id="outputDiv"></div>
+<script>
+  class defaultdict extends Map {
+    constructor(defaultFactory, ...args) {
+      super(...args)
+      this.defaultFactory = defaultFactory
+    }
+    get(key) {
+      if (this.has(key)) {
+        return super.get(key)
+      } else {
+        const value = this.defaultFactory()
+        this.set(key, value)
+        return value
+      }
+    }
+  }
+
+  const componentToHex = c => ("0" + c.toString(16)).slice(-2)
+  const rgba = (r, g, b, a) => a === 255 ? "#" + componentToHex(r) + componentToHex(g) + componentToHex(b) : `rgba(${r}, ${g}, ${b}, ${a / 255})`
+
+  function convert(img) {
+    if (img.width * img.height > 1e6) {
+      outputDiv.appendChild(document.createElement("div")).textContent = `${img.width} × ${img.height} is too large`
+      return
+    }
+    const canvas = document.createElement("canvas")
+    const ctx = canvas.getContext("2d")
+    canvas.width = img.width
+    canvas.height = img.height
+    ctx.drawImage(img, 0, 0)
+    // Note that Uint32Array views the buffer as native-endian.
+    // That's just a note, though. Big endian is not a thing anymore.
+    const data = new Uint32Array(ctx.getImageData(0, 0, img.width, img.height).data.buffer)
+    // JavaScript Maps and Sets preserve the insertion order, which makes the path predictable.
+    const colors = new defaultdict(Array) // {0xAABBGGRR => [[x, y₀, y₁], …], …}
+    for (let x = 0; x <= img.width; x++) {
+      for (let y = 0; y < img.height; y++) {
+        if (!x || x === img.width || data[y * img.width + x - 1] !== data[y * img.width + x]) {
+          const run = color => {
+            const edges = colors.get(color)
+            if (edges.length && edges[edges.length - 1][0] === x && edges[edges.length - 1][2] === y) {
+              edges[edges.length - 1][2]++
+            } else {
+              edges.push([x, y, y + 1])
+            }
+          }
+          if (x) run(data[y * img.width + x - 1])
+          if (x < img.width) run(data[y * img.width + x])
+        }
+      }
+    }
+    let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${img.width} ${img.height}" fill-rule="evenodd">\n`
+    for (const [color, edges] of colors.entries()) {
+      const g = new defaultdict(() => new Set())
+      const unvisited = new Set()
+      for (const [x, y0, y1] of edges) {
+        g.get(y0).add(y1 << 24 | x)
+        g.get(y1).add(y0 << 24 | x)
+        unvisited.add(y0).add(y1)
+      }
+      svg += `<path fill="${rgba(color & 255, color >> 8 & 255, color >> 16 & 255, color >> 24 & 255)}" d="`
+      while (unvisited.size) {
+        // See the LeetCode algorithm for finding a Eulerian circuit.
+        // https://leetcode.cn/problems/valid-arrangement-of-pairs/
+        const path = []
+        const dfs = u => {
+          unvisited.delete(u)
+          while (g.get(u).size) {
+            const packed = g.get(u).keys().next().value
+            const x = packed & 0xffffff
+            const v = packed >> 24
+            g.get(u).delete(packed)
+            g.get(v).delete(u << 24 | x)
+            dfs(v)
+            path.push([x, v])
+          }
+        }
+        const start = unvisited.keys().next().value
+        dfs(start)
+        path.reverse()
+        let x = path[0][0], y = start
+        svg += "M" + [x, y]
+        for (let i = 0; i < path.length; i++) {
+          const [x1, y1] = path[i]
+          if (i) svg += "h" + (x1 - x)
+          svg += "v" + (y1 - y)
+          x = x1
+          y = y1
+        }
+        svg += "z"
+      }
+      svg += '" />\n'
+      for (const [x, y0, y1] of edges) {
+        for (let y = y0; y < y1; y++) {
+          if (data[y * img.width + x - 1] === color) data[y * img.width + x - 1] = 0
+          if (data[y * img.width + x] === color) data[y * img.width + x] = 0
+        }
+      }
+    }
+    svg += "</svg>"
+    console.log(data)
+    outputDiv.appendChild(document.createElement("figure")).innerHTML = `${svg}<figcaption>Output size: ${svg.length}<pre>${svg.replace(/</g, "&lt;")}`
+  }
+
+  uploader.onchange = () => {
+    for (const file of uploader.files) {
+      const img = new Image()
+      img.onload = () => convert(img)
+      img.src = URL.createObjectURL(file)
+    }
+  }
+</script>
