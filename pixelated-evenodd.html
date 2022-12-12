@@ -22,6 +22,7 @@
   }
 
 </style>
+<h1>Convert pixel-art to pixel-perfect SVG</h1>
 <p>
   This is an advanced pixel-art-to-SVG-path converter.
   It takes advantage of <code>fillrule="evenodd"</code>,
@@ -31,8 +32,21 @@
   <a href="http://defghi1977.html.xdomain.jp/tech/img2svg3/dot2svg3.htm">path simplification</a>,
   and of course <a href="https://www.aseprite.org/">one <code>&lt;rect&gt;</code> per pixel</a>.
 </p>
-<input type="file" id="uploader" multiple accept="image/*">
-<div id="outputDiv"></div>
+<fieldset>
+  <legend>Options</legend>
+  Nothing to configure!
+</fieldset>
+<fieldset>
+  <legend>Input images</legend>
+  <input type="file" id="uploader" multiple accept="image/*">
+</fieldset>
+<fieldset id="outputDiv">
+  <legend>Output graphics</legend>
+</fieldset>
+<footer>
+  Copyright &copy; 2022 Frog Chen<br>
+  <a href="https://github.com/Salenzo/Utilities/blob/master/pixelated-evenodd.html">View source on GitHub</a>
+</footer>
 <script>
   class defaultdict extends Map {
     constructor(defaultFactory, ...args) {
