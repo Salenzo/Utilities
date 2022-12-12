@@ -23,15 +23,17 @@ Sketch library
 还有一些单文件网页。
 
 <dl>
-	<dt>1bpp</dt>
+	<dt><a href="https://salenzo.github.io/Utilities/1bpp.html">1bpp</a></dt>
 	<dd>二进制二值图像查看器：将任意文件中的紧凑二进制数据作为黑白图像查看，用于试错ROM中存储的图像参数。</dd>
-	<dt>cppedit</dt>
+	<dt><a href="https://salenzo.github.io/Utilities/cppedit.html">cppedit</a></dt>
 	<dd>非常简陋的C++程序输入法，主要用于在手机上写数据结构课的作业。</dd>
-	<dt>crontab</dt>
+	<dt><a href="https://salenzo.github.io/Utilities/crontab.html">crontab</a></dt>
 	<dd>源自crontab.guru的cron计划任务语法解释者（英文）。此版本去除了在地址栏显示当前计划的功能，并大幅精简了代码。</dd>
+	<dt><a href="https://salenzo.github.io/Utilities/pixelart-evenodd.html">pixelart-evenodd</a></dt>
+	<dd>用一笔画的算法将像素图转换为最优的SVG路径。</dd>
 	<dt>sqrtpi</dt>
 	<dd>重度残废的单目录列表脚本，放哪读哪。需要文件系统编码为UTF-8。上传文件的功能可能存在权限问题。</dd>
-	<dt>waveform</dt>
+	<dt><a href="https://salenzo.github.io/Utilities/waveform.html">waveform</a></dt>
 	<dd>一千台任意函数信号发生器有一千种专有的波形文件格式。这个工具只在两者之间转换，但采用的Float64Array中间表示使其架构可扩展。</dd>
 </dl>
 
