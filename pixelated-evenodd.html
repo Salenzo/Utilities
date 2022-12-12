@@ -6,6 +6,11 @@
     color: white;
   }
 
+  a {
+    color: yellow;
+    text-decoration-skip-ink: none;
+  }
+
   pre {
     user-select: all;
     overflow-x: hidden;
@@ -23,6 +28,7 @@
   and for each color, returns a filled path with the fewest path segments
   using an algorithm for finding Eulerian circuits.
   Other approaches include <a href="https://codepen.io/shshaw/pen/XbxvNj">a clever offset bounding box leveraging stroked paths</a>,
+  <a href="http://defghi1977.html.xdomain.jp/tech/img2svg3/dot2svg3.htm">path simplification</a>,
   and of course <a href="https://www.aseprite.org/">one <code>&lt;rect&gt;</code> per pixel</a>.
 </p>
 <input type="file" id="uploader" multiple accept="image/*">
