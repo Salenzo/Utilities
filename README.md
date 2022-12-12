@@ -29,7 +29,7 @@ Sketch library
 	<dd>非常简陋的C++程序输入法，主要用于在手机上写数据结构课的作业。</dd>
 	<dt><a href="https://salenzo.github.io/Utilities/crontab.html">crontab</a></dt>
 	<dd>源自crontab.guru的cron计划任务语法解释者（英文）。此版本去除了在地址栏显示当前计划的功能，并大幅精简了代码。</dd>
-	<dt><a href="https://salenzo.github.io/Utilities/pixelart-evenodd.html">pixelart-evenodd</a></dt>
+	<dt><a href="https://salenzo.github.io/Utilities/pixelated-evenodd.html">pixelated-evenodd</a></dt>
 	<dd>用一笔画的算法将像素图转换为最优的SVG路径。</dd>
 	<dt>sqrtpi</dt>
 	<dd>重度残废的单目录列表脚本，放哪读哪。需要文件系统编码为UTF-8。上传文件的功能可能存在权限问题。</dd>
