@@ -18,6 +18,8 @@ Sketch library
 	<dd>（仅限Windows。）执行一句批处理命令。很奇怪，但有时候用cmd.exe就是搞不定。</dd>
 	<dt>shellexecute</dt>
 	<dd>（仅限Windows。）将命令行转发到硬编码在资源中的另一程序。很奇怪，但有时候快捷方式就是搞不定。</dd>
+	<dt>shellexecutelite</dt>
+	<dd>（仅限Windows。）启动硬编码的另一程序。目标路径以UTF-8编码且预留了充足的空白，仅需十六进制编辑器就能修改，用于编辑资源有困难的场合。</dd>
 	<dt>cpro</dt>
 	<dd>（仅限Windows。）如《编程珠玑（续）》之第1章所述，用一晚上的时间实现的性能监视工具，作用是记录C语句执行次数。对代码风格有要求：大括号皆位于关键字同行末。不太明确能否被计数的块则依次交由<code>gcc -fsyntax-only</code>判别。</dd>
 </dl>
